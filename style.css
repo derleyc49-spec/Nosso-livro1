@@ -1,95 +1,111 @@
 body {
   margin: 0;
   font-family: Arial;
+  background: #f2f2f2;
 }
 
 /* SENHA */
 #senhaTela {
+  height: 100vh;
   background: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#senhaInput {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+}
+
+/* CAPA */
+#capa {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  color: white;
-  transition: 0.5s;
 }
 
-#senhaTela.fade-out {
-  opacity: 0;
-}
-
-#senhaInput {
-  background: #e0e0e0;
-  border: none;
-  padding: 10px;
-  border-radius: 10px;
-  margin-top: 10px;
-}
-
-#btnSenha {
-  margin-top: 10px;
-  background: #ff4d6d;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 15px;
-  color: white;
-}
-
-#btnSenha:active {
-  transform: scale(0.95);
-}
-
-/* ERRO */
-.erro {
-  animation: shake 0.3s;
-  border: 2px solid red;
-}
-
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-  100% { transform: translateX(0); }
-}
-
-/* CAPA */
 .card {
   background: #e8cfcf;
   padding: 40px;
   border-radius: 30px;
-  width: 300px;
-  margin: 100px auto;
+  width: 90%;
+  max-width: 350px;
   text-align: center;
 }
 
 .foto {
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
-  object-fit: cover;
-}
-
-.btn-abrir {
-  background: #ff4d6d;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  color: white;
 }
 
 /* LIVRO */
-textarea {
-  width: 90%;
-  height: 300px;
-  margin: 20px;
-  border-radius: 10px;
-  padding: 10px;
+#livro {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
 }
 
 .topo {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+}
+
+.box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+textarea {
+  width: 100%;
+  height: 80%;
+  border-radius: 20px;
+  padding: 15px;
+}
+
+.botoes {
+  display: flex;
+  justify-content: space-between;
+}
+
+.botoes button {
+  width: 45%;
+  padding: 15px;
+  font-size: 20px;
+}
+
+/* CORAÇÕES */
+#coracoes {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.coracao {
+  position: absolute;
+  bottom: 0;
+  animation: subir 4s linear;
+}
+
+@keyframes subir {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100vh); opacity: 0; }
 }
