@@ -5,16 +5,13 @@ const firebaseConfig = {
   apiKey: "AIzaSyB3GPTqPod_k9wcoP83RnFbJUPnae-qc3c",
   authDomain: "nosso-livro-783fe.firebaseapp.com",
   projectId: "nosso-livro-783fe",
-  storageBucket: "nosso-livro-783fe.firebasestorage.app",
-  messagingSenderId: "569703141969",
-  appId: "1:569703141969:web:19fde9bfe69b95a6f01e70"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 let pagina = 1;
-const totalPaginas = 50;
+let unsubscribe;
 
 const textarea = document.getElementById("texto");
 
@@ -22,54 +19,32 @@ const textarea = document.getElementById("texto");
 window.verificarSenha = function () {
   const senha = document.getElementById("senhaInput").value;
 
-  if (senha === "1234") {
-    const tela = document.getElementById("senhaTela");
-    tela.classList.add("fade-out");
-
-    setTimeout(() => {
-      tela.style.display = "none";
-      document.getElementById("capa").style.display = "block";
-    }, 500);
-
+  if (senha === "007@Mary") {
+    document.getElementById("senhaTela").style.display = "none";
+    document.getElementById("capa").style.display = "flex";
   } else {
-    const input = document.getElementById("senhaInput");
-
-    input.classList.add("erro");
-
-    if (navigator.vibrate) {
-      navigator.vibrate(200);
-    }
-
-    setTimeout(() => {
-      input.classList.remove("erro");
-    }, 300);
+    alert("Senha errada 😢");
   }
 };
 
 /* ABRIR */
 window.abrirLivro = function () {
   document.getElementById("capa").style.display = "none";
-  document.getElementById("livro").style.display = "block";
+  document.getElementById("livro").style.display = "flex";
   carregarPagina();
 };
 
-/* VOLTAR */
+/* NAVEGAÇÃO */
 window.voltar = function () {
-  if (pagina === 1) {
-    document.getElementById("livro").style.display = "none";
-    document.getElementById("capa").style.display = "block";
-  } else {
+  if (pagina > 1) {
     pagina--;
     carregarPagina();
   }
 };
 
-/* AVANÇAR */
 window.proxima = function () {
-  if (pagina < totalPaginas) {
-    pagina++;
-    carregarPagina();
-  }
+  pagina++;
+  carregarPagina();
 };
 
 /* CARREGAR */
@@ -78,17 +53,33 @@ function carregarPagina() {
 
   const ref = doc(db, "livro", "pagina" + pagina);
 
-  onSnapshot(ref, (docSnap) => {
-    if (docSnap.exists()) {
-      textarea.value = docSnap.data().texto || "";
-    } else {
-      textarea.value = "";
-    }
+  if (unsubscribe) unsubscribe();
+
+  unsubscribe = onSnapshot(ref, (docSnap) => {
+    textarea.value = docSnap.exists() ? docSnap.data().texto : "";
   });
 
-  textarea.oninput = async () => {
-    await setDoc(ref, {
-      texto: textarea.value
-    });
+  textarea.oninput = () => {
+    setDoc(ref, { texto: textarea.value });
   };
 }
+
+/* COR */
+const corPicker = document.getElementById("corPicker");
+corPicker.oninput = () => {
+  document.body.style.background = corPicker.value;
+};
+
+/* CORAÇÕES */
+function criarCoracao() {
+  const el = document.createElement("div");
+  el.className = "coracao";
+  el.innerHTML = "❤️";
+  el.style.left = Math.random() * 100 + "%";
+
+  document.getElementById("coracoes").appendChild(el);
+
+  setTimeout(() => el.remove(), 4000);
+}
+
+setInterval(criarCoracao, 800);
