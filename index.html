@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nosso Livro ❤️</title>
+<title>Nosso Livro 💌</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -19,7 +19,7 @@
 <!-- CAPA -->
 <div id="capa" style="display:none;">
   <div class="card">
-    🎀
+    <div class="laco">🎀</div>
     <img src="foto.JPG" class="foto">
     <h2>Mary 💌</h2>
     <p>abre com carinho</p>
@@ -29,30 +29,31 @@
 
 <!-- LIVRO -->
 <div id="livro" style="display:none;">
+  
+  <div class="box">
 
-  <!-- TOPO -->
-  <div class="topo">
-    <div class="acoes">
+    <!-- TOPO -->
+    <div class="topo">
       <input type="color" id="corFundo">
       <input type="color" id="corTexto">
       <select id="fonte">
         <option value="Arial">Arial</option>
         <option value="Georgia">Georgia</option>
         <option value="Courier New">Courier</option>
+        <option value="cursive">Cursiva</option>
       </select>
     </div>
-  </div>
 
-  <!-- PÁGINA -->
-  <div class="box">
+    <!-- TEXTO -->
     <textarea id="texto"></textarea>
-  </div>
 
-  <!-- BOTÕES -->
-  <div class="botoes">
-    <button onclick="voltar()">⬅️</button>
-    <span id="contador">1/50</span>
-    <button onclick="proxima()">➡️</button>
+    <!-- BOTÕES -->
+    <div class="botoes">
+      <button onclick="voltar()">⬅️ Recuar</button>
+      <span id="paginaNum">1/50</span>
+      <button onclick="proxima()">Avançar ➡️</button>
+    </div>
+
   </div>
 
 </div>
