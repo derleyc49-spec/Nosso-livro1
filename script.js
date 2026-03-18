@@ -1,39 +1,65 @@
+// FIREBASE
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB3GPTqPod_k9wcoP83RnFbJUPnae-qc3c",
+  authDomain: "nosso-livro-783fe.firebaseapp.com",
+  projectId: "nosso-livro-783fe",
+  storageBucket: "nosso-livro-783fe.appspot.com",
+  messagingSenderId: "569703141969",
+  appId: "1:569703141969:web:19fde9bfe69b95a6f01e70"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// SENHA
 const senhaCorreta = "007@Mary";
 
 let pagina = 1;
 const total = 50;
 
 const texto = document.getElementById("texto");
-const box = document.querySelector(".box");
 
+// LOGIN
 function verificarSenha() {
   if (senhaInput.value === senhaCorreta) {
     senhaTela.style.display = "none";
     capa.style.display = "flex";
   } else {
-    alert("Senha errada 😅");
+    alert("Senha errada");
   }
 }
 
+// ABRIR LIVRO
 function abrirLivro() {
   capa.style.display = "none";
   livro.style.display = "flex";
   carregar();
 }
 
-texto.addEventListener("input", () => {
-  localStorage.setItem("texto_" + pagina, texto.value);
+// SALVAR
+texto.addEventListener("input", async () => {
+  await setDoc(doc(db, "livro", "pagina_" + pagina), {
+    texto: texto.value
+  });
 });
 
+// LER EM TEMPO REAL
 function carregar() {
-  texto.value = localStorage.getItem("texto_" + pagina) || "";
   paginaNum.innerText = pagina + "/" + total;
 
-  box.style.background = localStorage.getItem("bg_" + pagina) || "white";
-  texto.style.color = localStorage.getItem("cor_" + pagina) || "black";
-  texto.style.fontFamily = localStorage.getItem("font_" + pagina) || "Arial";
+  onSnapshot(doc(db, "livro", "pagina_" + pagina), (docSnap) => {
+    if (docSnap.exists()) {
+      texto.value = docSnap.data().texto || "";
+    } else {
+      texto.value = "";
+    }
+  });
 }
 
+// NAVEGAÇÃO
 function proxima() {
   if (pagina < total) {
     pagina++;
@@ -50,18 +76,3 @@ function voltar() {
     capa.style.display = "flex";
   }
 }
-
-corFundo.oninput = () => {
-  box.style.background = corFundo.value;
-  localStorage.setItem("bg_" + pagina, corFundo.value);
-};
-
-corTexto.oninput = () => {
-  texto.style.color = corTexto.value;
-  localStorage.setItem("cor_" + pagina, corTexto.value);
-};
-
-fonte.onchange = () => {
-  texto.style.fontFamily = fonte.value;
-  localStorage.setItem("font_" + pagina, fonte.value);
-};
