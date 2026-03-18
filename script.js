@@ -14,8 +14,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// SENHA
-const senhaCorreta = "Mary00@";
+// 🔐 SENHA NOVA
+const senhaCorreta = "Mary2026";
 
 let pagina = 1;
 const total = 50;
@@ -26,7 +26,9 @@ const box = document.querySelector(".box");
 
 // LOGIN
 function verificarSenha() {
-  if (document.getElementById("senhaInput").value === senhaCorreta) {
+  const senha = document.getElementById("senhaInput").value.trim();
+
+  if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
     document.getElementById("capa").style.display = "flex";
   } else {
@@ -41,14 +43,14 @@ function abrirLivro() {
   carregar();
 }
 
-// 🔥 SALVAR NO FIREBASE
+// SALVAR
 texto.addEventListener("input", async () => {
   await setDoc(doc(db, "livro", "pagina_" + pagina), {
     texto: texto.value
   });
 });
 
-// 🔥 LER EM TEMPO REAL
+// CARREGAR EM TEMPO REAL
 function carregar() {
   document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
@@ -79,7 +81,7 @@ function voltar() {
   }
 }
 
-// 🔥 COR / FONTE (continua normal)
+// CORES E FONTE
 document.getElementById("corFundo").oninput = (e) => {
   box.style.background = e.target.value;
 };
@@ -92,7 +94,7 @@ document.getElementById("fonte").onchange = (e) => {
   texto.style.fontFamily = e.target.value;
 };
 
-// 🔥 MUITO IMPORTANTE (BOTÕES FUNCIONAREM)
+// 🔥 NECESSÁRIO PRA FUNCIONAR COM HTML
 window.verificarSenha = verificarSenha;
 window.abrirLivro = abrirLivro;
 window.proxima = proxima;
