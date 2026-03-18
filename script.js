@@ -1,85 +1,93 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+const senhaCorreta = "007@Mary";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyB3GPTqPod_k9wcoP83RnFbJUPnae-qc3c",
-  authDomain: "nosso-livro-783fe.firebaseapp.com",
-  projectId: "nosso-livro-783fe",
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-let pagina = 1;
-let unsubscribe;
-
-const textarea = document.getElementById("texto");
-
-/* SENHA */
-window.verificarSenha = function () {
+function verificarSenha() {
   const senha = document.getElementById("senhaInput").value;
 
-  if (senha === "007@Mary") {
+  if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
     document.getElementById("capa").style.display = "flex";
   } else {
-    alert("Senha errada 😢");
+    alert("Senha errada");
   }
-};
+}
 
-/* ABRIR */
-window.abrirLivro = function () {
+function abrirLivro() {
   document.getElementById("capa").style.display = "none";
   document.getElementById("livro").style.display = "flex";
   carregarPagina();
-};
+}
 
-/* NAVEGAÇÃO */
-window.voltar = function () {
-  if (pagina > 1) {
-    pagina--;
-    carregarPagina();
-  }
-};
+/* SISTEMA */
+let pagina = 1;
+const total = 50;
 
-window.proxima = function () {
-  pagina++;
-  carregarPagina();
-};
+let paginas = {};
 
-/* CARREGAR */
-function carregarPagina() {
-  document.getElementById("paginaNum").innerText = "Página " + pagina;
-
-  const ref = doc(db, "livro", "pagina" + pagina);
-
-  if (unsubscribe) unsubscribe();
-
-  unsubscribe = onSnapshot(ref, (docSnap) => {
-    textarea.value = docSnap.exists() ? docSnap.data().texto : "";
-  });
-
-  textarea.oninput = () => {
-    setDoc(ref, { texto: textarea.value });
+for (let i = 1; i <= total; i++) {
+  paginas[i] = {
+    texto: "",
+    corFundo: "#ffffff",
+    corTexto: "#000000",
+    fonte: "Arial"
   };
 }
 
-/* COR */
-const corPicker = document.getElementById("corPicker");
-corPicker.oninput = () => {
-  document.body.style.background = corPicker.value;
-};
+const texto = document.getElementById("texto");
+const corFundo = document.getElementById("corFundo");
+const corTexto = document.getElementById("corTexto");
+const fonte = document.getElementById("fonte");
 
-/* CORAÇÕES */
-function criarCoracao() {
-  const el = document.createElement("div");
-  el.className = "coracao";
-  el.innerHTML = "❤️";
-  el.style.left = Math.random() * 100 + "%";
+/* SALVAR */
+texto.addEventListener("input", () => {
+  paginas[pagina].texto = texto.value;
+});
 
-  document.getElementById("coracoes").appendChild(el);
+corFundo.addEventListener("input", () => {
+  paginas[pagina].corFundo = corFundo.value;
+  document.body.style.background = corFundo.value;
+});
 
-  setTimeout(() => el.remove(), 4000);
+corTexto.addEventListener("input", () => {
+  paginas[pagina].corTexto = corTexto.value;
+  texto.style.color = corTexto.value;
+});
+
+fonte.addEventListener("change", () => {
+  paginas[pagina].fonte = fonte.value;
+  texto.style.fontFamily = fonte.value;
+});
+
+/* CARREGAR */
+function carregarPagina() {
+  let p = paginas[pagina];
+
+  texto.value = p.texto;
+  corFundo.value = p.corFundo;
+  corTexto.value = p.corTexto;
+  fonte.value = p.fonte;
+
+  document.body.style.background = p.corFundo;
+  texto.style.color = p.corTexto;
+  texto.style.fontFamily = p.fonte;
+
+  document.getElementById("contador").innerText = `${pagina}/50`;
 }
 
-setInterval(criarCoracao, 800);
+/* AVANÇAR */
+function proxima() {
+  if (pagina < total) {
+    pagina++;
+    carregarPagina();
+  }
+}
+
+/* VOLTAR */
+function voltar() {
+  if (pagina > 1) {
+    pagina--;
+    carregarPagina();
+  } else {
+    document.getElementById("livro").style.display = "none";
+    document.getElementById("capa").style.display = "flex";
+  }
+}
