@@ -15,7 +15,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // SENHA
-const senhaCorreta = "007@Mary";
+const senhaCorreta = "Mary00@";
 
 let pagina = 1;
 const total = 50;
