@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nosso Livro ❤️</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- SENHA -->
+<div id="senhaTela">
+  <h2>Digite a senha 💌</h2>
+  <input type="password" id="senhaInput">
+  <button id="btnSenha" onclick="verificarSenha()">Entrar</button>
+</div>
+
+<!-- CAPA -->
+<div id="capa" style="display:none;">
+  <div class="card">
+    <div class="bow">🎀</div>
+    <img src="foto.JPG" class="foto">
+    <h2>Mary 💌</h2>
+    <p>abre com carinho</p>
+    <button onclick="abrirLivro()" class="btn-abrir">Abrir</button>
+  </div>
+</div>
+
+<!-- LIVRO -->
+<div id="livro" style="display:none;">
+  <div class="topo">
+    <button onclick="voltar()">⬅️</button>
+    <span id="paginaNum">Página 1</span>
+    <button onclick="proxima()">➡️</button>
+  </div>
+
+  <textarea id="texto"></textarea>
+</div>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>
