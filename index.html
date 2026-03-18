@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nosso Livro 💌</title>
+<title>Nosso Livro ❤️</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -29,11 +29,14 @@
 
 <!-- LIVRO -->
 <div id="livro" style="display:none;">
+  
   <div class="box">
 
+    <!-- TOPO (cores e fonte) -->
     <div class="topo">
       <input type="color" id="corFundo">
       <input type="color" id="corTexto">
+      
       <select id="fonte">
         <option value="Arial">Arial</option>
         <option value="Georgia">Georgia</option>
@@ -42,8 +45,10 @@
       </select>
     </div>
 
+    <!-- TEXTO -->
     <textarea id="texto"></textarea>
 
+    <!-- BOTÕES -->
     <div class="botoes">
       <button onclick="voltar()">⬅️</button>
       <span id="paginaNum">1/50</span>
@@ -51,8 +56,11 @@
     </div>
 
   </div>
+
 </div>
 
-<script src="script.js"></script>
+<!-- 🔥 MUITO IMPORTANTE -->
+<script type="module" src="script.js"></script>
+
 </body>
 </html>
