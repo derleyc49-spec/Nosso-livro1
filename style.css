@@ -1,76 +1,98 @@
-const senhaCorreta = "007@Mary";
-
-let pagina = 1;
-const total = 50;
-
-function verificarSenha() {
-  const input = document.getElementById("senhaInput").value;
-  if (input === senhaCorreta) {
-    document.getElementById("senhaTela").style.display = "none";
-    document.getElementById("capa").style.display = "flex";
-  } else {
-    alert("Senha errada 😅");
-  }
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #f2f2f2;
 }
 
-function abrirLivro() {
-  document.getElementById("capa").style.display = "none";
-  document.getElementById("livro").style.display = "flex";
-  carregar();
+/* SENHA */
+#senhaTela {
+  height: 100vh;
+  background: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-/* SALVAR TEXTO */
-document.getElementById("texto").addEventListener("input", () => {
-  localStorage.setItem("pagina_" + pagina, texto.value);
-});
-
-/* CARREGAR */
-function carregar() {
-  texto.value = localStorage.getItem("pagina_" + pagina) || "";
-  document.getElementById("paginaNum").innerText = pagina + "/" + total;
-
-  // cores e fonte
-  const bg = localStorage.getItem("bg_" + pagina);
-  const cor = localStorage.getItem("cor_" + pagina);
-  const font = localStorage.getItem("font_" + pagina);
-
-  if(bg) box.style.background = bg;
-  if(cor) texto.style.color = cor;
-  if(font) texto.style.fontFamily = font;
+/* CENTRAL */
+#capa, #livro {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* NAVEGAÇÃO */
-function proxima() {
-  if (pagina < total) {
-    pagina++;
-    carregar();
-  }
+/* CAPA */
+.card {
+  background: #e8cfcf;
+  padding: 40px 20px;
+  border-radius: 30px;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
-function voltar() {
-  if (pagina > 1) {
-    pagina--;
-    carregar();
-  } else {
-    // volta pra capa
-    document.getElementById("livro").style.display = "none";
-    document.getElementById("capa").style.display = "flex";
-  }
+.foto {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-/* CORES */
-corFundo.oninput = () => {
-  box.style.background = corFundo.value;
-  localStorage.setItem("bg_" + pagina, corFundo.value);
-};
+/* LIVRO */
+.box {
+  position: relative;
+  width: 90%;
+  max-width: 350px;
+  height: 65vh;
+  background: white;
+  border-radius: 25px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  padding: 20px;
+}
 
-corTexto.oninput = () => {
-  texto.style.color = corTexto.value;
-  localStorage.setItem("cor_" + pagina, corTexto.value);
-};
+/* TOPO */
+.topo {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 5px;
+}
 
-/* FONTE */
-fonte.onchange = () => {
-  texto.style.fontFamily = fonte.value;
-  localStorage.setItem("font_" + pagina, fonte.value);
-};
+/* TEXTO */
+textarea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 16px;
+  background: transparent;
+}
+
+/* BOTÕES */
+.botoes {
+  position: absolute;
+  bottom: -50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.botoes button {
+  padding: 10px 15px;
+  border-radius: 15px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+}
+
+#paginaNum {
+  background: #eee;
+  padding: 10px 15px;
+  border-radius: 15px;
+}
