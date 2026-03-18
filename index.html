@@ -19,7 +19,7 @@
 <!-- CAPA -->
 <div id="capa" style="display:none;">
   <div class="card">
-    <div>🎀</div>
+    🎀
     <img src="foto.JPG" class="foto">
     <h2>Mary 💌</h2>
     <p>abre com carinho</p>
@@ -30,25 +30,33 @@
 <!-- LIVRO -->
 <div id="livro" style="display:none;">
 
+  <!-- TOPO -->
   <div class="topo">
-    <span id="paginaNum">Página 1</span>
-    <input type="color" id="corPicker">
+    <div class="acoes">
+      <input type="color" id="corFundo">
+      <input type="color" id="corTexto">
+      <select id="fonte">
+        <option value="Arial">Arial</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Courier New">Courier</option>
+      </select>
+    </div>
   </div>
 
+  <!-- PÁGINA -->
   <div class="box">
     <textarea id="texto"></textarea>
   </div>
 
+  <!-- BOTÕES -->
   <div class="botoes">
     <button onclick="voltar()">⬅️</button>
+    <span id="contador">1/50</span>
     <button onclick="proxima()">➡️</button>
   </div>
 
 </div>
 
-<!-- CORAÇÕES -->
-<div id="coracoes"></div>
-
-<script type="module" src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
