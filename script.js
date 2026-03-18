@@ -20,35 +20,37 @@ const senhaCorreta = "007@Mary";
 let pagina = 1;
 const total = 50;
 
+// ELEMENTOS
 const texto = document.getElementById("texto");
+const box = document.querySelector(".box");
 
 // LOGIN
 function verificarSenha() {
-  if (senhaInput.value === senhaCorreta) {
-    senhaTela.style.display = "none";
-    capa.style.display = "flex";
+  if (document.getElementById("senhaInput").value === senhaCorreta) {
+    document.getElementById("senhaTela").style.display = "none";
+    document.getElementById("capa").style.display = "flex";
   } else {
-    alert("Senha errada");
+    alert("Senha errada 😅");
   }
 }
 
 // ABRIR LIVRO
 function abrirLivro() {
-  capa.style.display = "none";
-  livro.style.display = "flex";
+  document.getElementById("capa").style.display = "none";
+  document.getElementById("livro").style.display = "flex";
   carregar();
 }
 
-// SALVAR
+// 🔥 SALVAR NO FIREBASE
 texto.addEventListener("input", async () => {
   await setDoc(doc(db, "livro", "pagina_" + pagina), {
     texto: texto.value
   });
 });
 
-// LER EM TEMPO REAL
+// 🔥 LER EM TEMPO REAL
 function carregar() {
-  paginaNum.innerText = pagina + "/" + total;
+  document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
   onSnapshot(doc(db, "livro", "pagina_" + pagina), (docSnap) => {
     if (docSnap.exists()) {
@@ -72,7 +74,26 @@ function voltar() {
     pagina--;
     carregar();
   } else {
-    livro.style.display = "none";
-    capa.style.display = "flex";
+    document.getElementById("livro").style.display = "none";
+    document.getElementById("capa").style.display = "flex";
   }
 }
+
+// 🔥 COR / FONTE (continua normal)
+document.getElementById("corFundo").oninput = (e) => {
+  box.style.background = e.target.value;
+};
+
+document.getElementById("corTexto").oninput = (e) => {
+  texto.style.color = e.target.value;
+};
+
+document.getElementById("fonte").onchange = (e) => {
+  texto.style.fontFamily = e.target.value;
+};
+
+// 🔥 MUITO IMPORTANTE (BOTÕES FUNCIONAREM)
+window.verificarSenha = verificarSenha;
+window.abrirLivro = abrirLivro;
+window.proxima = proxima;
+window.voltar = voltar;
