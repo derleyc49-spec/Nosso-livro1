@@ -18,6 +18,7 @@
 
 <!-- CAPA -->
 <div id="capa" style="display:none;">
+  
   <div class="card">
     <div>🎀</div>
     <img src="foto.JPG" class="foto">
@@ -25,6 +26,27 @@
     <p>abre com carinho</p>
     <button onclick="abrirLivro()">Abrir</button>
   </div>
+
+  <!-- 🔥 NOVO (SEM MEXER NA CAPA) -->
+  <div class="extra-musica">
+
+    <div class="spotify-box">
+      <iframe style="border-radius:12px"
+        src="https://open.spotify.com/embed/playlist/0Y1rhag1gRHysSLHcgWPxW"
+        width="100%" height="152"
+        frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+      </iframe>
+    </div>
+
+    <div class="visualizador"></div>
+
+    <div class="letra">
+      <p id="letraTexto">🎵 Escolhe uma música...</p>
+    </div>
+
+  </div>
+
 </div>
 
 <!-- LIVRO -->
@@ -32,7 +54,6 @@
   
   <div class="box">
 
-    <!-- TOPO (cores e fonte) -->
     <div class="topo">
       <input type="color" id="corFundo">
       <input type="color" id="corTexto">
@@ -45,10 +66,8 @@
       </select>
     </div>
 
-    <!-- TEXTO -->
     <textarea id="texto"></textarea>
 
-    <!-- BOTÕES -->
     <div class="botoes">
       <button onclick="voltar()">⬅️</button>
       <span id="paginaNum">1/50</span>
@@ -59,8 +78,6 @@
 
 </div>
 
-<!-- 🔥 MUITO IMPORTANTE -->
 <script type="module" src="script.js"></script>
-
 </body>
 </html>
