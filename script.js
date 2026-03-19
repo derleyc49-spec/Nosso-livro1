@@ -1,4 +1,3 @@
-// FIREBASE
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -14,13 +13,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔐 SENHA NOVA
+// SENHA
 const senhaCorreta = "Mary2026";
 
 let pagina = 1;
 const total = 50;
 
-// ELEMENTOS
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
@@ -50,7 +48,7 @@ texto.addEventListener("input", async () => {
   });
 });
 
-// CARREGAR EM TEMPO REAL
+// CARREGAR
 function carregar() {
   document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
@@ -81,7 +79,7 @@ function voltar() {
   }
 }
 
-// CORES E FONTE
+// CORES
 document.getElementById("corFundo").oninput = (e) => {
   box.style.background = e.target.value;
 };
@@ -94,7 +92,23 @@ document.getElementById("fonte").onchange = (e) => {
   texto.style.fontFamily = e.target.value;
 };
 
-// 🔥 NECESSÁRIO PRA FUNCIONAR COM HTML
+// 🔥 VISUALIZADOR
+const visual = document.querySelector(".visualizador");
+
+setInterval(() => {
+  if (visual) {
+    const escala = 1 + Math.random() * 0.3;
+    visual.style.transform = `scale(${escala})`;
+  }
+}, 300);
+
+// 🔥 TEXTO
+const letra = document.getElementById("letraTexto");
+if (letra) {
+  letra.innerText = "🎵 A música está tocando... sente a vibe ❤️";
+}
+
+// BOTÕES
 window.verificarSenha = verificarSenha;
 window.abrirLivro = abrirLivro;
 window.proxima = proxima;
