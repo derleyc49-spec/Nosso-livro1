@@ -31,6 +31,9 @@ function verificarSenha() {
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
     document.getElementById("capa").style.display = "flex";
+
+    tocarMusica(); // 🎧
+
   } else {
     alert("Senha errada 😅");
   }
@@ -108,6 +111,16 @@ function irPagina() {
     pagina = num;
     carregar();
   });
+}
+
+// 🎧 MÚSICA
+function tocarMusica() {
+  const audio = document.getElementById("musica");
+
+  if (audio) {
+    audio.volume = 0.4;
+    audio.play();
+  }
 }
 
 // 📱 SWIPE
