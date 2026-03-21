@@ -180,3 +180,22 @@ textarea {
     inset 0 0 0 3px #f4c6d2,
     inset 0 0 0 6px #f9dfe6;
 }
+/* ===== FIXAR TELA NO IPHONE ===== */
+
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#livro {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  max-height: 90vh;
+  overflow: hidden;
+}
