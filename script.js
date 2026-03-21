@@ -18,7 +18,7 @@ const db = getFirestore(app);
 const senhaCorreta = "Mary2026";
 
 let pagina = 1;
-const total = 300; // 🔥 300 páginas
+const total = 300;
 
 // ELEMENTOS
 const texto = document.getElementById("texto");
@@ -31,6 +31,10 @@ function verificarSenha() {
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
     document.getElementById("capa").style.display = "flex";
+
+    // 🎤 VOZ
+    falarBoasVindas();
+
   } else {
     alert("Senha errada 😅");
   }
@@ -107,6 +111,37 @@ function irPagina() {
   animarTroca(() => {
     pagina = num;
     carregar();
+  });
+}
+
+// 🎤 VOZ
+function falarBoasVindas() {
+  const msg = new SpeechSynthesisUtterance("Seja bem-vindo ao nosso mundo");
+
+  msg.lang = "pt-BR";
+  msg.rate = 0.9;
+  msg.pitch = 1;
+
+  speechSynthesis.speak(msg);
+}
+
+// 📱 SWIPE
+let startX = 0;
+let endX = 0;
+
+const area = document.querySelector(".box");
+
+if (area) {
+  area.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  area.addEventListener("touchend", (e) => {
+    endX = e.changedTouches[0].clientX;
+    let diff = startX - endX;
+
+    if (diff > 50) proxima();
+    if (diff < -50) voltar();
   });
 }
 
