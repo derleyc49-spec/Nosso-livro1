@@ -134,3 +134,34 @@ textarea {
   from { transform: translateY(0); }
   to { transform: translateY(-100vh); opacity: 0; }
 }
+#capa {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(#fdf7f9, #f3e6ea);
+}
+
+.card {
+  width: 320px;
+  padding: 30px;
+  border-radius: 30px;
+  text-align: center;
+  background: #fff0f5;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.foto {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.card button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+}
