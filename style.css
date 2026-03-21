@@ -29,7 +29,13 @@ button {
   background: #ff4d6d;
   color: white;
 }
+.pesquisa-topo button {
+  transition: 0.2s;
+}
 
+.pesquisa-topo button:active {
+  transform: scale(0.95);
+}
 /* CAPA */
 #capa {
   height: 100vh;
