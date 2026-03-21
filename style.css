@@ -180,3 +180,11 @@ textarea {
     inset 0 0 0 3px #f4c6d2,
     inset 0 0 0 6px #f9dfe6;
 }
+/* SCROLL SUAVE */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-overflow-scrolling: touch;
+}
