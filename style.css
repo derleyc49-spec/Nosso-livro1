@@ -188,3 +188,24 @@ html {
 body {
   -webkit-overflow-scrolling: touch;
 }
+/* SUAVIDADE GERAL */
+button {
+  transition: all 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+textarea {
+  transition: all 0.2s ease;
+}
+/* ANIMAÇÃO DE PÁGINA */
+.box {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.animar {
+  transform: translateX(30px);
+  opacity: 0;
+}
