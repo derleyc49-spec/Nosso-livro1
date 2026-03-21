@@ -31,10 +31,6 @@ function verificarSenha() {
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
     document.getElementById("capa").style.display = "flex";
-
-    // 🎤 VOZ
-    falarBoasVindas();
-
   } else {
     alert("Senha errada 😅");
   }
@@ -112,17 +108,6 @@ function irPagina() {
     pagina = num;
     carregar();
   });
-}
-
-// 🎤 VOZ
-function falarBoasVindas() {
-  const msg = new SpeechSynthesisUtterance("Seja bem-vindo ao nosso mundo");
-
-  msg.lang = "pt-BR";
-  msg.rate = 0.9;
-  msg.pitch = 1;
-
-  speechSynthesis.speak(msg);
 }
 
 // 📱 SWIPE
