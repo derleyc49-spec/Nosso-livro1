@@ -1,136 +1,91 @@
 body {
   margin: 0;
   font-family: Arial;
-  background: #f2f2f2;
-}
-
-/* SENHA */
-#senhaTela {
-  height: 100vh;
-  background: black;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#senhaInput {
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-}
-
-button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  border-radius: 15px;
-  border: none;
-  background: #ff4d6d;
-  color: white;
+  background: linear-gradient(#f8f4f6, #f1e6ea);
 }
 
 /* CAPA */
+
 #capa {
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
 .card {
-  background: #e8cfcf;
-  padding: 40px;
+  width: 320px;
+  padding: 30px;
   border-radius: 30px;
-  width: 90%;
-  max-width: 350px;
+  background: rgba(255, 240, 245, 0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.1),
+    inset 0 0 0 4px #f3c6d3,
+    inset 0 0 0 8px #f8dbe3;
   text-align: center;
 }
 
 .foto {
-  width: 130px;
-  height: 130px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
+  object-fit: cover;
+}
+
+.card button {
+  margin-top: 15px;
+  padding: 10px 25px;
+  border-radius: 20px;
+  border: none;
+  background: #e8899c;
+  color: white;
 }
 
 /* LIVRO */
+
 #livro {
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
-/* CAIXA DO LIVRO */
 .box {
-  position: relative; /* 🔥 importante */
   width: 90%;
   max-width: 400px;
-  height: 70vh;
-  background: #fff;
-  border-radius: 25px;
+  background: white;
   padding: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  border-radius: 20px;
 }
 
-/* 🔥 TOPO (BOTÕES FORA DA PÁGINA) */
-.topo {
-  position: absolute;
-  top: -45px; /* sobe pra fora */
-  right: 15px;
-  display: flex;
-  gap: 10px;
-  z-index: 10;
-}
-
-/* TEXTO */
 textarea {
   width: 100%;
-  height: 75%;
-  border-radius: 20px;
-  padding: 15px;
-  border: none;
-  outline: none;
-  resize: none;
-  font-size: 16px;
-  background: transparent;
+  height: 200px;
 }
 
-/* BOTÕES */
 .botoes {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
-.botoes button {
-  width: 30%;
-  padding: 12px;
-  font-size: 18px;
+/* PESQUISA */
+
+.pesquisa {
+  margin-bottom: 10px;
 }
 
-#paginaNum {
-  background: #ddd;
-  padding: 8px 15px;
-  border-radius: 15px;
+.pesquisa input {
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
 }
 
-/* CORAÇÕES */
-#coracoes {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.coracao {
-  position: absolute;
-  bottom: 0;
-  animation: subir 4s linear;
-}
-
-@keyframes subir {
-  from { transform: translateY(0); }
-  to { transform: translateY(-100vh); opacity: 0; }
+.pesquisa button {
+  border: none;
+  background: #e8899c;
+  color: white;
+  border-radius: 10px;
+  padding: 5px 10px;
 }
