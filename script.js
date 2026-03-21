@@ -18,7 +18,7 @@ const db = getFirestore(app);
 const senhaCorreta = "Mary2026";
 
 let pagina = 1;
-const total = 300; // 🔥 ALTERADO PRA 300
+const total = 300; // 🔥 300 páginas
 
 // ELEMENTOS
 const texto = document.getElementById("texto");
@@ -63,25 +63,39 @@ function carregar() {
   });
 }
 
+// 🔥 ANIMAÇÃO
+function animarTroca(callback) {
+  box.classList.add("animar");
+
+  setTimeout(() => {
+    callback();
+    box.classList.remove("animar");
+  }, 200);
+}
+
 // NAVEGAÇÃO
 function proxima() {
   if (pagina < total) {
-    pagina++;
-    carregar();
+    animarTroca(() => {
+      pagina++;
+      carregar();
+    });
   }
 }
 
 function voltar() {
   if (pagina > 1) {
-    pagina--;
-    carregar();
+    animarTroca(() => {
+      pagina--;
+      carregar();
+    });
   } else {
     document.getElementById("livro").style.display = "none";
     document.getElementById("capa").style.display = "flex";
   }
 }
 
-// 🔍 PESQUISA (NOVA)
+// 🔍 PESQUISA
 function irPagina() {
   const num = parseInt(document.getElementById("buscarPagina").value);
 
@@ -90,8 +104,10 @@ function irPagina() {
     return;
   }
 
-  pagina = num;
-  carregar();
+  animarTroca(() => {
+    pagina = num;
+    carregar();
+  });
 }
 
 // CORES
