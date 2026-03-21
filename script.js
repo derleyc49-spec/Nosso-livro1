@@ -14,11 +14,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔐 SENHA NOVA
+// 🔐 SENHA
 const senhaCorreta = "Mary2026";
 
 let pagina = 1;
-const total = 50;
+const total = 300; // 🔥 ALTERADO PRA 300
 
 // ELEMENTOS
 const texto = document.getElementById("texto");
@@ -50,7 +50,7 @@ texto.addEventListener("input", async () => {
   });
 });
 
-// CARREGAR EM TEMPO REAL
+// CARREGAR
 function carregar() {
   document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
@@ -81,7 +81,20 @@ function voltar() {
   }
 }
 
-// CORES E FONTE
+// 🔍 PESQUISA (NOVA)
+function irPagina() {
+  const num = parseInt(document.getElementById("buscarPagina").value);
+
+  if (!num || num < 1 || num > total) {
+    alert("Página inválida 😅");
+    return;
+  }
+
+  pagina = num;
+  carregar();
+}
+
+// CORES
 document.getElementById("corFundo").oninput = (e) => {
   box.style.background = e.target.value;
 };
@@ -94,8 +107,9 @@ document.getElementById("fonte").onchange = (e) => {
   texto.style.fontFamily = e.target.value;
 };
 
-// 🔥 NECESSÁRIO PRA FUNCIONAR COM HTML
+// GLOBAL
 window.verificarSenha = verificarSenha;
 window.abrirLivro = abrirLivro;
 window.proxima = proxima;
 window.voltar = voltar;
+window.irPagina = irPagina;
