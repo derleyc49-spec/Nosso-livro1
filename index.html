@@ -16,6 +16,16 @@
   <button onclick="verificarSenha()">Entrar</button>
 </div>
 
+<!-- SURPRESA 1 -->
+<div id="surpresa1" style="display:none;" onclick="irSurpresa2()">
+  <img src="foto1.jpg" style="width:100%; height:100vh; object-fit:cover;">
+</div>
+
+<!-- SURPRESA 2 -->
+<div id="surpresa2" style="display:none;" onclick="abrirLivro()">
+  <img src="foto2.jpg" style="width:100%; height:100vh; object-fit:cover;">
+</div>
+
 <!-- CAPA -->
 <div id="capa" style="display:none;">
   <div class="card">
@@ -32,13 +42,11 @@
   
   <div class="box">
 
-    <!-- 🔍 PESQUISA -->
     <div class="pesquisa-topo">
       <input type="number" id="buscarPagina" placeholder="Página...">
       <button onclick="irPagina()">🔍</button>
     </div>
 
-    <!-- TOPO -->
     <div class="topo">
       <input type="color" id="corFundo">
       <input type="color" id="corTexto">
@@ -51,10 +59,8 @@
       </select>
     </div>
 
-    <!-- TEXTO -->
     <textarea id="texto"></textarea>
 
-    <!-- BOTÕES -->
     <div class="botoes">
       <button onclick="voltar()">⬅️</button>
       <span id="paginaNum">1/300</span>
@@ -65,7 +71,6 @@
 
 </div>
 
-<!-- 🎧 MÚSICA -->
 <audio id="musica" src="musica4.mp3" loop></audio>
 
 <script type="module" src="script.js"></script>
