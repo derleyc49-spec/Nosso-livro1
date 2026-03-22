@@ -28,7 +28,7 @@ function verificarSenha() {
 
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
-    document.getElementById("surpresa1").style.display = "block";
+    document.getElementById("capa").style.display = "flex";
 
     tocarMusica();
 
@@ -38,6 +38,11 @@ function verificarSenha() {
 }
 
 // SURPRESA
+function irSurpresa1() {
+  document.getElementById("capa").style.display = "none";
+  document.getElementById("surpresa1").style.display = "block";
+}
+
 function irSurpresa2() {
   document.getElementById("surpresa1").style.display = "none";
   document.getElementById("surpresa2").style.display = "block";
@@ -156,4 +161,5 @@ window.abrirLivro = abrirLivro;
 window.proxima = proxima;
 window.voltar = voltar;
 window.irPagina = irPagina;
+window.irSurpresa1 = irSurpresa1;
 window.irSurpresa2 = irSurpresa2;
