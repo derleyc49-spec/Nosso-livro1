@@ -14,13 +14,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔐 SENHA
 const senhaCorreta = "Mary2026";
 
 let pagina = 1;
 const total = 300;
 
-// ELEMENTOS
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
@@ -30,18 +28,24 @@ function verificarSenha() {
 
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
-    document.getElementById("capa").style.display = "flex";
+    document.getElementById("surpresa1").style.display = "block";
 
-    tocarMusica(); // 🎧
+    tocarMusica();
 
   } else {
     alert("Senha errada 😅");
   }
 }
 
+// SURPRESA
+function irSurpresa2() {
+  document.getElementById("surpresa1").style.display = "none";
+  document.getElementById("surpresa2").style.display = "block";
+}
+
 // ABRIR LIVRO
 function abrirLivro() {
-  document.getElementById("capa").style.display = "none";
+  document.getElementById("surpresa2").style.display = "none";
   document.getElementById("livro").style.display = "flex";
   carregar();
 }
@@ -58,15 +62,11 @@ function carregar() {
   document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
   onSnapshot(doc(db, "livro", "pagina_" + pagina), (docSnap) => {
-    if (docSnap.exists()) {
-      texto.value = docSnap.data().texto || "";
-    } else {
-      texto.value = "";
-    }
+    texto.value = docSnap.exists() ? docSnap.data().texto || "" : "";
   });
 }
 
-// 🔥 ANIMAÇÃO
+// ANIMAÇÃO
 function animarTroca(callback) {
   box.classList.add("animar");
 
@@ -92,13 +92,10 @@ function voltar() {
       pagina--;
       carregar();
     });
-  } else {
-    document.getElementById("livro").style.display = "none";
-    document.getElementById("capa").style.display = "flex";
   }
 }
 
-// 🔍 PESQUISA
+// PESQUISA
 function irPagina() {
   const num = parseInt(document.getElementById("buscarPagina").value);
 
@@ -113,28 +110,25 @@ function irPagina() {
   });
 }
 
-// 🎧 MÚSICA
+// MÚSICA
 function tocarMusica() {
   const audio = document.getElementById("musica");
-
   if (audio) {
     audio.volume = 0.4;
     audio.play();
   }
 }
 
-// 📱 SWIPE
+// SWIPE
 let startX = 0;
 let endX = 0;
 
-const area = document.querySelector(".box");
-
-if (area) {
-  area.addEventListener("touchstart", (e) => {
+if (box) {
+  box.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
   });
 
-  area.addEventListener("touchend", (e) => {
+  box.addEventListener("touchend", (e) => {
     endX = e.changedTouches[0].clientX;
     let diff = startX - endX;
 
@@ -162,3 +156,4 @@ window.abrirLivro = abrirLivro;
 window.proxima = proxima;
 window.voltar = voltar;
 window.irPagina = irPagina;
+window.irSurpresa2 = irSurpresa2;
