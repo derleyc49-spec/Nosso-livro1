@@ -37,20 +37,9 @@ function verificarSenha() {
   }
 }
 
-// SURPRESA
-function irSurpresa1() {
-  document.getElementById("capa").style.display = "none";
-  document.getElementById("surpresa1").style.display = "block";
-}
-
-function irSurpresa2() {
-  document.getElementById("surpresa1").style.display = "none";
-  document.getElementById("surpresa2").style.display = "block";
-}
-
 // ABRIR LIVRO
 function abrirLivro() {
-  document.getElementById("surpresa2").style.display = "none";
+  document.getElementById("capa").style.display = "none";
   document.getElementById("livro").style.display = "flex";
   carregar();
 }
@@ -97,6 +86,9 @@ function voltar() {
       pagina--;
       carregar();
     });
+  } else {
+    document.getElementById("livro").style.display = "none";
+    document.getElementById("capa").style.display = "flex";
   }
 }
 
@@ -161,5 +153,3 @@ window.abrirLivro = abrirLivro;
 window.proxima = proxima;
 window.voltar = voltar;
 window.irPagina = irPagina;
-window.irSurpresa1 = irSurpresa1;
-window.irSurpresa2 = irSurpresa2;
