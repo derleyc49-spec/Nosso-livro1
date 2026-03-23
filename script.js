@@ -27,13 +27,19 @@ let corTextoAtual = "#000000";
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
-// LOGIN (CORRIGIDO)
+// LOGIN
 function verificarSenha() {
   const senha = document.getElementById("senhaInput").value.trim();
 
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
-    document.getElementById("perguntaTela").style.display = "flex";
+
+    if (localStorage.getItem("jaRespondeu") === "sim") {
+      document.getElementById("capa").style.display = "flex";
+    } else {
+      document.getElementById("perguntaTela").style.display = "flex";
+    }
+
     tocarMusica();
   } else {
     alert("Senha errada 😅");
@@ -197,6 +203,7 @@ mas eu sempre vou te perturbar 🙃`,
 
 function finalResposta(valor) {
   localStorage.setItem("respostaFinal", valor);
+  localStorage.setItem("jaRespondeu", "sim");
 
   document.getElementById("segundaTela").style.display = "none";
   document.getElementById("finalTela").style.display = "flex";
@@ -210,13 +217,10 @@ function finalResposta(valor) {
   setTimeout(() => {
     document.getElementById("finalTela").style.display = "none";
     document.getElementById("capa").style.display = "flex";
-  }, 5000);
+  }, 4000);
 }
 
-// ==========================
-// 🔥 CORREÇÃO DOS BOTÕES
-// ==========================
-
+// 🔥 BOTÕES FUNCIONANDO
 setTimeout(() => {
   const b1 = document.querySelectorAll("#perguntaTela button");
   if (b1.length >= 2) {
@@ -242,9 +246,9 @@ function mostrarPerguntasRespostas() {
     el = document.createElement("div");
     el.id = "overlayPerguntas";
     el.style.position = "absolute";
-    el.style.top = "10px";
-    el.style.left = "10px";
-    el.style.right = "10px";
+    el.style.top = "70px";
+    el.style.left = "20px";
+    el.style.right = "20px";
     el.style.zIndex = "10";
     box.appendChild(el);
   }
@@ -253,8 +257,8 @@ function mostrarPerguntasRespostas() {
     const r1 = localStorage.getItem("resposta1");
     const r2 = localStorage.getItem("respostaFinal");
 
-    let resp1 = r1 === "sim" ? "SIM 💕" : r1 === "nao" ? "NÃO 😢" : "...";
-    let resp2 = r2 === "sim" ? "SIM 💍" : r2 === "nao" ? "NÃO ❌" : "...";
+    let resp1 = r1 === "sim" ? "Simm🥰" : r1 === "nao" ? "😖" : "...";
+    let resp2 = r2 === "sim" ? "Simm🥰" : r2 === "nao" ? "😖" : "...";
 
     el.innerText = `💖 Você vai ser a minha só minha?
 Resposta: ${resp1}
