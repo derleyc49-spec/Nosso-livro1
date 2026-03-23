@@ -20,6 +20,7 @@ const senhaCorreta = "Mary2026";
 let pagina = 1;
 const total = 300;
 
+// 🔥 NOVO (cores)
 let corFundoAtual = "#ffffff";
 let corTextoAtual = "#000000";
 
@@ -33,12 +34,7 @@ function verificarSenha() {
 
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
-
-    if (localStorage.getItem("jaRespondeu") === "sim") {
-      document.getElementById("capa").style.display = "flex";
-    } else {
-      document.getElementById("perguntaTela").style.display = "flex";
-    }
+    document.getElementById("capa").style.display = "flex";
 
     tocarMusica();
   } else {
@@ -53,7 +49,7 @@ function abrirLivro() {
   carregar();
 }
 
-// SALVAR
+// 🔥 NOVO (FUNÇÃO SALVAR)
 async function salvarPagina() {
   await setDoc(doc(db, "livro", "pagina_" + pagina), {
     texto: texto.value,
@@ -62,9 +58,10 @@ async function salvarPagina() {
   });
 }
 
+// SALVAR TEXTO
 texto.addEventListener("input", salvarPagina);
 
-// CARREGAR
+// CARREGAR (ATUALIZADO COM COR)
 function carregar() {
   document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
@@ -81,10 +78,10 @@ function carregar() {
       texto.style.color = corTextoAtual;
     } else {
       texto.value = "";
+      box.style.background = "#ffffff";
+      texto.style.color = "#000000";
     }
   });
-
-  mostrarPerguntasRespostas();
 }
 
 // NAVEGAÇÃO
@@ -145,7 +142,7 @@ if (box) {
   });
 }
 
-// CORES
+// 🔥 CORES (AGORA SALVA NA HORA)
 document.getElementById("corFundo").oninput = (e) => {
   corFundoAtual = e.target.value;
   box.style.background = corFundoAtual;
@@ -169,115 +166,3 @@ window.abrirLivro = abrirLivro;
 window.proxima = proxima;
 window.voltar = voltar;
 window.irPagina = irPagina;
-
-// ==========================
-// 🔥 PERGUNTAS
-// ==========================
-
-function digitarTexto(txt, el, vel = 25) {
-  el.innerHTML = "";
-  let i = 0;
-  function escrever() {
-    if (i < txt.length) {
-      el.innerHTML += txt.charAt(i);
-      i++;
-      setTimeout(escrever, vel);
-    }
-  }
-  escrever();
-}
-
-function resposta(valor) {
-  localStorage.setItem("resposta1", valor);
-
-  document.getElementById("perguntaTela").style.display = "none";
-  document.getElementById("segundaTela").style.display = "flex";
-
-  digitarTexto(
-`eu prometo cuidar de você, te mimar, cuidar de você, te dar atenção como você merece e cuidar de você como uma princesa… 💖
-
-mas eu sempre vou te perturbar 🙃`,
-    document.getElementById("textoDigitando")
-  );
-}
-
-function finalResposta(valor) {
-  localStorage.setItem("respostaFinal", valor);
-  localStorage.setItem("jaRespondeu", "sim");
-
-  document.getElementById("segundaTela").style.display = "none";
-  document.getElementById("finalTela").style.display = "flex";
-
-  digitarTexto(
-    "O objetivo disso tudo está na página 33… 👀",
-    document.getElementById("textoFinal"),
-    40
-  );
-
-  setTimeout(() => {
-    document.getElementById("finalTela").style.display = "none";
-    document.getElementById("capa").style.display = "flex";
-  }, 4000);
-}
-
-// 🔥 BOTÕES FUNCIONANDO
-setTimeout(() => {
-  const b1 = document.querySelectorAll("#perguntaTela button");
-  if (b1.length >= 2) {
-    b1[0].onclick = () => resposta("sim");
-    b1[1].onclick = () => resposta("nao");
-  }
-
-  const b2 = document.querySelectorAll("#segundaTela button");
-  if (b2.length >= 2) {
-    b2[0].onclick = () => finalResposta("sim");
-    b2[1].onclick = () => finalResposta("nao");
-  }
-}, 500);
-
-// ==========================
-// 🔥 PÁGINA 50
-// ==========================
-
-function mostrarPerguntasRespostas() {
-  let el = document.getElementById("overlayPerguntas");
-
-  if (!el) {
-    el = document.createElement("div");
-    el.id = "overlayPerguntas";
-    el.style.position = "absolute";
-    el.style.top = "70px";
-    el.style.left = "20px";
-    el.style.right = "20px";
-    el.style.zIndex = "10";
-    box.appendChild(el);
-  }
-
-  if (pagina === 50) {
-    const r1 = localStorage.getItem("resposta1");
-    const r2 = localStorage.getItem("respostaFinal");
-
-    let resp1 = r1 === "sim" ? "Simm🥰" : r1 === "nao" ? "😖" : "...";
-    let resp2 = r2 === "sim" ? "Simm🥰" : r2 === "nao" ? "😖" : "...";
-
-    el.innerText = `💖 Você vai ser a minha só minha?
-Resposta: ${resp1}
-
--------------------------
-
-eu prometo cuidar de você, te mimar, cuidar de você, te dar atenção como você merece e cuidar de você como uma princesa… 💖
-
-mas eu sempre vou te perturbar 🙃
-
-Aceita? 💍
-Resposta: ${resp2}
-
--------------------------
-
-👀 O objetivo disso tudo está na página 33…`;
-
-    el.style.display = "block";
-  } else {
-    el.style.display = "none";
-  }
-}
