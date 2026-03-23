@@ -38,6 +38,22 @@ function verificarSenha() {
   }
 }
 
+// 💬 EFEITO DIGITANDO
+function digitarTexto(texto, elemento, velocidade = 25) {
+  elemento.innerHTML = "";
+  let i = 0;
+
+  function escrever() {
+    if (i < texto.length) {
+      elemento.innerHTML += texto.charAt(i);
+      i++;
+      setTimeout(escrever, velocidade);
+    }
+  }
+
+  escrever();
+}
+
 // 💖 PRIMEIRA RESPOSTA
 function resposta(valor) {
   localStorage.setItem("resposta1", valor);
@@ -46,6 +62,13 @@ function resposta(valor) {
 
   if (valor === "sim") {
     document.getElementById("segundaTela").style.display = "flex";
+
+    const texto = `eu prometo cuidar de você, te mimar, cuidar de você, te dar atenção como você merece e cuidar de você como uma princesa… 💖
+
+mas eu sempre vou te perturbar 🙃`;
+
+    digitarTexto(texto, document.getElementById("textoDigitando"), 25);
+
   } else {
     alert("Mesmo com esse não vou continuar respeitando você 💖");
     document.getElementById("capa").style.display = "flex";
