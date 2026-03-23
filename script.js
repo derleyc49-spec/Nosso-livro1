@@ -215,3 +215,46 @@ window.voltar = function () {
     }
   }, 120);
 };
+// ==========================
+// 📖 VIRAR PÁGINA REAL
+// ==========================
+
+function virarPagina(direcao) {
+  const box = document.querySelector(".box");
+  if (!box) return;
+
+  box.style.transformOrigin = direcao === "next" ? "left" : "right";
+
+  box.classList.add(direcao === "next" ? "virar-next" : "virar-prev");
+
+  setTimeout(() => {
+    box.classList.remove("virar-next", "virar-prev");
+    box.classList.add("virando");
+
+    setTimeout(() => {
+      box.classList.remove("virando");
+    }, 400);
+
+  }, 200);
+}
+
+// guardar original
+const originalProxima = window.proxima;
+const originalVoltar = window.voltar;
+
+// aplicar efeito
+window.proxima = function () {
+  virarPagina("next");
+
+  setTimeout(() => {
+    if (originalProxima) originalProxima();
+  }, 200);
+};
+
+window.voltar = function () {
+  virarPagina("prev");
+
+  setTimeout(() => {
+    if (originalVoltar) originalVoltar();
+  }, 200);
+};
