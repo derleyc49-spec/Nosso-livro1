@@ -27,18 +27,18 @@ let corTextoAtual = "#000000";
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
-// LOGIN
+// LOGIN CORRIGIDO
 function verificarSenha() {
   const senha = document.getElementById("senhaInput").value.trim();
 
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
 
-    if (localStorage.getItem("jaRespondeu") === "sim") {
-      document.getElementById("capa").style.display = "flex";
-    } else {
+    iniciarChuvaEmoji();
+
+    setTimeout(() => {
       document.getElementById("perguntaTela").style.display = "flex";
-    }
+    }, 10000);
 
     tocarMusica();
   } else {
@@ -87,7 +87,7 @@ function carregar() {
   mostrarPerguntasRespostas();
 }
 
-// NAVEGAÇÃO
+// NAVEGAÇÃO ORIGINAL
 function proxima() {
   if (pagina < total) {
     pagina++;
@@ -140,8 +140,8 @@ if (box) {
     endX = e.changedTouches[0].clientX;
     let diff = startX - endX;
 
-    if (diff > 50) proxima();
-    if (diff < -50) voltar();
+    if (diff > 50) proximaAnimada();
+    if (diff < -50) voltarAnimada();
   });
 }
 
@@ -166,77 +166,78 @@ document.getElementById("fonte").onchange = (e) => {
 // GLOBAL
 window.verificarSenha = verificarSenha;
 window.abrirLivro = abrirLivro;
-window.proxima = proxima;
-window.voltar = voltar;
 window.irPagina = irPagina;
 
 // ==========================
-// 🔥 PERGUNTAS
+// 🌺 CHUVA REAL (CORRIGIDA)
 // ==========================
 
-function digitarTexto(txt, el, vel = 25) {
-  el.innerHTML = "";
-  let i = 0;
-  function escrever() {
-    if (i < txt.length) {
-      el.innerHTML += txt.charAt(i);
-      i++;
-      setTimeout(escrever, vel);
-    }
-  }
-  escrever();
+function iniciarChuvaEmoji() {
+  const emojis = ["🫀","🩷","❤️","😍","🥰","🌺","🥀","🌹","🫧","❤️‍🔥","💖","🐻","💍","🫂","🥺","🥳","🤩","🤯","😤"];
+
+  const intervalo = setInterval(() => {
+    const emoji = document.createElement("div");
+    emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+
+    emoji.style.position = "fixed";
+    emoji.style.top = "-30px";
+    emoji.style.left = Math.random() * window.innerWidth + "px";
+    emoji.style.fontSize = (Math.random() * 10 + 20) + "px";
+    emoji.style.zIndex = "999";
+    emoji.style.pointerEvents = "none";
+
+    document.body.appendChild(emoji);
+
+    const duracao = Math.random() * 3000 + 3000;
+
+    emoji.animate([
+      { transform: "translateY(0)", opacity: 1 },
+      { transform: `translateY(${window.innerHeight + 100}px)`, opacity: 0 }
+    ], {
+      duration: duracao,
+      easing: "linear"
+    });
+
+    setTimeout(() => emoji.remove(), duracao);
+
+  }, 60);
+
+  setTimeout(() => clearInterval(intervalo), 10000);
 }
-
-function resposta(valor) {
-  localStorage.setItem("resposta1", valor);
-
-  document.getElementById("perguntaTela").style.display = "none";
-  document.getElementById("segundaTela").style.display = "flex";
-
-  digitarTexto(
-`eu prometo cuidar de você, te mimar, cuidar de você, te dar atenção como você merece e cuidar de você como uma princesa… 💖
-
-mas eu sempre vou te perturbar 🙃`,
-    document.getElementById("textoDigitando")
-  );
-}
-
-function finalResposta(valor) {
-  localStorage.setItem("respostaFinal", valor);
-  localStorage.setItem("jaRespondeu", "sim");
-
-  document.getElementById("segundaTela").style.display = "none";
-  document.getElementById("finalTela").style.display = "flex";
-
-  digitarTexto(
-    "O objetivo disso tudo está na página 33… 👀",
-    document.getElementById("textoFinal"),
-    40
-  );
-
-  setTimeout(() => {
-    document.getElementById("finalTela").style.display = "none";
-    document.getElementById("capa").style.display = "flex";
-  }, 4000);
-}
-
-// 🔥 BOTÕES FUNCIONANDO
-setTimeout(() => {
-  const b1 = document.querySelectorAll("#perguntaTela button");
-  if (b1.length >= 2) {
-    b1[0].onclick = () => resposta("sim");
-    b1[1].onclick = () => resposta("nao");
-  }
-
-  const b2 = document.querySelectorAll("#segundaTela button");
-  if (b2.length >= 2) {
-    b2[0].onclick = () => finalResposta("sim");
-    b2[1].onclick = () => finalResposta("nao");
-  }
-}, 500);
 
 // ==========================
-// 🔥 PÁGINA 50
+// ✨ ANIMAÇÃO SUAVE
+// ==========================
+
+function animarDirecao(direcao) {
+  box.style.transition = "none";
+  box.style.opacity = "0";
+  box.style.transform = direcao === "next"
+    ? "translateX(40px)"
+    : "translateX(-40px)";
+
+  requestAnimationFrame(() => {
+    box.style.transition = "all 0.35s ease";
+    box.style.opacity = "1";
+    box.style.transform = "translateX(0)";
+  });
+}
+
+function proximaAnimada() {
+  animarDirecao("next");
+  setTimeout(() => proxima(), 120);
+}
+
+function voltarAnimada() {
+  animarDirecao("prev");
+  setTimeout(() => voltar(), 120);
+}
+
+window.proxima = proximaAnimada;
+window.voltar = voltarAnimada;
+
+// ==========================
+// 📄 PÁGINA 50
 // ==========================
 
 function mostrarPerguntasRespostas() {
@@ -257,8 +258,8 @@ function mostrarPerguntasRespostas() {
     const r1 = localStorage.getItem("resposta1");
     const r2 = localStorage.getItem("respostaFinal");
 
-    let resp1 = r1 === "sim" ? "Simm🥰" : r1 === "nao" ? "😖" : "...";
-    let resp2 = r2 === "sim" ? "Simm🥰" : r2 === "nao" ? "😖" : "...";
+    let resp1 = r1 === "sim" ? "Simm🥰" : r1 === "nao" ? "Não😖" : "";
+    let resp2 = r2 === "sim" ? "Simm🥰" : r2 === "nao" ? "Não😖" : "";
 
     el.innerText = `💖 Você vai ser a minha só minha?
 Resposta: ${resp1}
@@ -281,85 +282,3 @@ Resposta: ${resp2}
     el.style.display = "none";
   }
 }
-// 🌺 CHUVA INSANA DE EMOJI
-function iniciarChuvaEmoji() {
-  const emojis = ["🫀","🩷","❤️","😍","🥰","🌺","🥀","🌹","🫧","❤️‍🔥","💖","🐻","💍","🫂","🥺","🥳","🤩","🤯","😤"];
-
-  let container = document.getElementById("chuvaEmoji");
-
-  if (!container) {
-    container = document.createElement("div");
-    container.id = "chuvaEmoji";
-    document.body.appendChild(container);
-  }
-
-  const intervalo = setInterval(() => {
-    const emoji = document.createElement("div");
-    emoji.className = "emoji";
-    emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-
-    emoji.style.left = Math.random() * 100 + "vw";
-    emoji.style.animationDuration = (Math.random() * 3 + 2) + "s";
-
-    container.appendChild(emoji);
-
-    setTimeout(() => emoji.remove(), 4000);
-
-  }, 80); // 🔥 INSANO
-
-  setTimeout(() => {
-    clearInterval(intervalo);
-    container.remove();
-  }, 10000); // 10 segundos
-}
-
-// 🔥 ATIVAR CHUVA DEPOIS DA SENHA
-const oldLogin = verificarSenha;
-
-window.verificarSenha = function () {
-  const senha = document.getElementById("senhaInput").value.trim();
-
-  if (senha === senhaCorreta) {
-    document.getElementById("senhaTela").style.display = "none";
-
-    iniciarChuvaEmoji();
-
-    setTimeout(() => {
-      if (localStorage.getItem("jaRespondeu") === "sim") {
-        document.getElementById("capa").style.display = "flex";
-      } else {
-        document.getElementById("perguntaTela").style.display = "flex";
-      }
-    }, 10000);
-
-    tocarMusica();
-  } else {
-    alert("Senha errada 😅");
-  }
-};
-
-// ✨ ANIMAÇÃO AO TROCAR PÁGINA
-const oldProxima = proxima;
-const oldVoltar = voltar;
-
-window.proxima = function () {
-  box.classList.add("fade-slide");
-  setTimeout(() => box.classList.remove("fade-slide"), 400);
-  oldProxima();
-};
-
-window.voltar = function () {
-  box.classList.add("fade-slide");
-  setTimeout(() => box.classList.remove("fade-slide"), 400);
-  oldVoltar();
-};
-
-// ❤️ CORREÇÃO NÃO😖
-function corrigirResposta() {
-  let r1 = localStorage.getItem("resposta1");
-  let r2 = localStorage.getItem("respostaFinal");
-
-  if (r1 === "nao") localStorage.setItem("resposta1", "nao");
-  if (r2 === "nao") localStorage.setItem("respostaFinal", "nao");
-}
-corrigirResposta();
