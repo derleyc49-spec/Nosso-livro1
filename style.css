@@ -188,4 +188,23 @@ body {
 .slide-right {
   transform: translateX(120px);
   opacity: 0;
+}/* ===== CENTRALIZAÇÃO DAS TELAS ===== */
+
+.telaCentro {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.telaCentro h2,
+.telaCentro p {
+  margin-bottom: 30px;
+}
+
+.telaCentro button {
+  margin: 10px;
 }
