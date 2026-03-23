@@ -5,7 +5,7 @@ import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/f
 const firebaseConfig = {
   apiKey: "AIza...",
   authDomain: "...",
-  projectId: "...",
+  projectId: "..."
 };
 
 const app = initializeApp(firebaseConfig);
@@ -37,18 +37,35 @@ function verificarSenha() {
   }
 }
 
-// 🌺 CHUVA
+// 🌺 CHUVA REAL (CORRIGIDO)
 function chuvaEmojis() {
   const tela = document.getElementById("emojiTela");
+  tela.innerHTML = "";
   tela.style.display = "block";
 
   const intervalo = setInterval(() => {
     const span = document.createElement("span");
-    span.classList.add("emoji");
     span.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+    span.style.position = "absolute";
     span.style.left = Math.random() * 100 + "vw";
+    span.style.top = "-30px";
+    span.style.fontSize = (20 + Math.random() * 25) + "px";
+
     tela.appendChild(span);
-    setTimeout(() => span.remove(), 4000);
+
+    let pos = -30;
+
+    const cair = setInterval(() => {
+      pos += 5;
+      span.style.top = pos + "px";
+
+      if (pos > window.innerHeight) {
+        span.remove();
+        clearInterval(cair);
+      }
+    }, 30);
+
   }, 100);
 
   setTimeout(() => {
@@ -62,6 +79,7 @@ function chuvaEmojis() {
 function digitarTexto(txt, el, vel = 25) {
   el.innerHTML = "";
   let i = 0;
+
   function escrever() {
     if (i < txt.length) {
       el.innerHTML += txt.charAt(i);
@@ -69,12 +87,14 @@ function digitarTexto(txt, el, vel = 25) {
       setTimeout(escrever, vel);
     }
   }
+
   escrever();
 }
 
 // PERGUNTA 1
 function resposta(valor) {
   localStorage.setItem("resposta1", valor);
+
   document.getElementById("perguntaTela").style.display = "none";
 
   if (valor === "sim") {
@@ -84,7 +104,7 @@ function resposta(valor) {
 `eu prometo cuidar de você, te mimar, te dar atenção como você merece e cuidar de você como uma princesa… 💖
 
 mas eu sempre vou te perturbar 🙃`,
-    document.getElementById("textoDigitando")
+      document.getElementById("textoDigitando")
     );
 
   } else {
@@ -119,7 +139,7 @@ function abrirLivro() {
   carregar();
 }
 
-// SALVAR
+// SALVAR (NÃO ALTERA NADA)
 async function salvarPagina() {
   await setDoc(doc(db, "livro", "pagina_" + pagina), {
     texto: texto.value,
@@ -130,24 +150,62 @@ async function salvarPagina() {
 
 texto.addEventListener("input", salvarPagina);
 
-// CARREGAR
+// CARREGAR (CORRIGIDO)
 function carregar() {
   document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
   onSnapshot(doc(db, "livro", "pagina_" + pagina), (docSnap) => {
-    let base = docSnap.exists() ? docSnap.data().texto || "" : "";
+    if (docSnap.exists()) {
+      const data = docSnap.data();
 
-    if (pagina === 50) {
-      const r = localStorage.getItem("respostaFinal");
-      let resp = r === "sim" ? "SIM 💕" : "NÃO 😢";
+      // 🔥 NÃO mexe no conteúdo
+      texto.value = data.texto || "";
 
-      texto.value = `Você vai ser a minha só minha? 💖
+      corFundoAtual = data.corFundo || "#ffffff";
+      corTextoAtual = data.corTexto || "#000000";
 
-Resposta: ${resp}`;
+      box.style.background = corFundoAtual;
+      texto.style.color = corTextoAtual;
     } else {
-      texto.value = base;
+      texto.value = "";
     }
   });
+
+  // 🔥 MOSTRAR RESPOSTA SEM ALTERAR TEXTO
+  mostrarRespostaPagina50();
+}
+
+// 💖 RESPOSTA VISUAL (NÃO ALTERA FIREBASE)
+function mostrarRespostaPagina50() {
+  let el = document.getElementById("resposta50");
+
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "resposta50";
+
+    el.style.position = "absolute";
+    el.style.top = "10px";
+    el.style.left = "10px";
+    el.style.right = "10px";
+    el.style.textAlign = "center";
+    el.style.fontWeight = "bold";
+
+    box.appendChild(el);
+  }
+
+  if (pagina === 50) {
+    const r = localStorage.getItem("respostaFinal");
+
+    if (r === "sim") {
+      el.innerText = "💖 Ela disse SIM!";
+    } else if (r === "nao") {
+      el.innerText = "😢 Ela disse NÃO...";
+    }
+
+    el.style.display = "block";
+  } else {
+    el.style.display = "none";
+  }
 }
 
 // NAV
