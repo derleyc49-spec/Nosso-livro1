@@ -166,3 +166,52 @@ window.abrirLivro = abrirLivro;
 window.proxima = proxima;
 window.voltar = voltar;
 window.irPagina = irPagina;
+// ==========================
+// 📁 ANIMAÇÃO DE PÁGINA
+// ==========================
+
+// função de animação
+function animarPagina(direcao) {
+  const box = document.querySelector(".box");
+  if (!box) return;
+
+  box.style.transition = "none";
+  box.style.opacity = "0";
+
+  if (direcao === "next") {
+    box.style.transform = "translateX(60px)";
+  } else {
+    box.style.transform = "translateX(-60px)";
+  }
+
+  requestAnimationFrame(() => {
+    box.style.transition = "all 0.35s ease";
+    box.style.opacity = "1";
+    box.style.transform = "translateX(0)";
+  });
+}
+
+// guardar funções originais
+const originalProxima = window.proxima;
+const originalVoltar = window.voltar;
+
+// sobrescrever sem quebrar
+window.proxima = function () {
+  animarPagina("next");
+
+  setTimeout(() => {
+    if (originalProxima) {
+      originalProxima();
+    }
+  }, 120);
+};
+
+window.voltar = function () {
+  animarPagina("prev");
+
+  setTimeout(() => {
+    if (originalVoltar) {
+      originalVoltar();
+    }
+  }, 120);
+};
