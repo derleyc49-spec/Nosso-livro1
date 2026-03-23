@@ -82,6 +82,9 @@ function carregar() {
       texto.style.color = "#000000";
     }
   });
+
+  // 👉 ADIÇÃO SEGURA
+  mostrarPerguntasRespostas();
 }
 
 // NAVEGAÇÃO
@@ -160,9 +163,64 @@ document.getElementById("fonte").onchange = (e) => {
   texto.style.fontFamily = e.target.value;
 };
 
-// GLOBAL
+// 🌍 GLOBAL
 window.verificarSenha = verificarSenha;
 window.abrirLivro = abrirLivro;
 window.proxima = proxima;
 window.voltar = voltar;
 window.irPagina = irPagina;
+
+
+// ==========================
+// 🔥 ADIÇÃO (NÃO MEXE NO RESTO)
+// ==========================
+
+function mostrarPerguntasRespostas() {
+  let el = document.getElementById("overlayPerguntas");
+
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "overlayPerguntas";
+
+    el.style.position = "absolute";
+    el.style.top = "10px";
+    el.style.left = "10px";
+    el.style.right = "10px";
+    el.style.background = "rgba(255,255,255,0.9)";
+    el.style.borderRadius = "15px";
+    el.style.padding = "10px";
+    el.style.fontSize = "14px";
+    el.style.zIndex = "10";
+
+    box.appendChild(el);
+  }
+
+  if (pagina === 50) {
+    const r1 = localStorage.getItem("resposta1");
+    const r2 = localStorage.getItem("respostaFinal");
+
+    let resp1 = r1 === "sim" ? "SIM 💕" : "NÃO 😢";
+    let resp2 = r2 === "sim" ? "SIM 💍" : "NÃO ❌";
+
+    el.innerText = `💖 Você vai ser a minha só minha?
+Resposta: ${resp1}
+
+-------------------------
+
+eu prometo cuidar de você, te mimar, cuidar de você, te dar atenção como você merece e cuidar de você como uma princesa… 💖
+
+mas eu sempre vou te perturbar 🙃
+
+Aceita? 💍
+Resposta: ${resp2}
+
+-------------------------
+
+👀 O objetivo disso tudo está na página 33…`;
+
+    el.style.display = "block";
+
+  } else {
+    el.style.display = "none";
+  }
+}
