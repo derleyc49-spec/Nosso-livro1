@@ -282,3 +282,21 @@ Resposta: ${resp2}
     el.style.display = "none";
   }
 }
+// 🔥 CORRIGIR CLIQUE DOS BOTÕES (100% FUNCIONAL)
+
+setTimeout(() => {
+  const btn1 = document.querySelectorAll("#perguntaTela button");
+
+  if (btn1.length >= 2) {
+    btn1[0].addEventListener("click", () => resposta("sim"));
+    btn1[1].addEventListener("click", () => resposta("nao"));
+  }
+
+  const btn2 = document.querySelectorAll("#segundaTela button");
+
+  if (btn2.length >= 2) {
+    btn2[0].addEventListener("click", () => finalResposta("sim"));
+    btn2[1].addEventListener("click", () => finalResposta("nao"));
+  }
+
+}, 1000);
