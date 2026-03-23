@@ -20,7 +20,6 @@ const senhaCorreta = "Mary2026";
 let pagina = 1;
 const total = 300;
 
-// 🔥 NOVO (cores)
 let corFundoAtual = "#ffffff";
 let corTextoAtual = "#000000";
 
@@ -28,14 +27,13 @@ let corTextoAtual = "#000000";
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
-// LOGIN
+// 🔥 LOGIN CORRIGIDO
 function verificarSenha() {
   const senha = document.getElementById("senhaInput").value.trim();
 
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
-    document.getElementById("capa").style.display = "flex";
-
+    document.getElementById("perguntaTela").style.display = "flex"; // 🔥 aqui corrige
     tocarMusica();
   } else {
     alert("Senha errada 😅");
@@ -49,7 +47,7 @@ function abrirLivro() {
   carregar();
 }
 
-// 🔥 NOVO (FUNÇÃO SALVAR)
+// SALVAR
 async function salvarPagina() {
   await setDoc(doc(db, "livro", "pagina_" + pagina), {
     texto: texto.value,
@@ -58,10 +56,9 @@ async function salvarPagina() {
   });
 }
 
-// SALVAR TEXTO
 texto.addEventListener("input", salvarPagina);
 
-// CARREGAR (ATUALIZADO COM COR)
+// CARREGAR
 function carregar() {
   document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
@@ -78,12 +75,9 @@ function carregar() {
       texto.style.color = corTextoAtual;
     } else {
       texto.value = "";
-      box.style.background = "#ffffff";
-      texto.style.color = "#000000";
     }
   });
 
-  // 👉 ADIÇÃO SEGURA
   mostrarPerguntasRespostas();
 }
 
@@ -145,7 +139,7 @@ if (box) {
   });
 }
 
-// 🔥 CORES (AGORA SALVA NA HORA)
+// CORES
 document.getElementById("corFundo").oninput = (e) => {
   corFundoAtual = e.target.value;
   box.style.background = corFundoAtual;
@@ -163,16 +157,67 @@ document.getElementById("fonte").onchange = (e) => {
   texto.style.fontFamily = e.target.value;
 };
 
-// 🌍 GLOBAL
+// GLOBAL
 window.verificarSenha = verificarSenha;
 window.abrirLivro = abrirLivro;
 window.proxima = proxima;
 window.voltar = voltar;
 window.irPagina = irPagina;
 
+// ==========================
+// 🔥 PERGUNTAS
+// ==========================
+
+// DIGITAR
+function digitarTexto(txt, el, vel = 25) {
+  el.innerHTML = "";
+  let i = 0;
+  function escrever() {
+    if (i < txt.length) {
+      el.innerHTML += txt.charAt(i);
+      i++;
+      setTimeout(escrever, vel);
+    }
+  }
+  escrever();
+}
+
+// PERGUNTA 1
+function resposta(valor) {
+  localStorage.setItem("resposta1", valor);
+
+  document.getElementById("perguntaTela").style.display = "none";
+  document.getElementById("segundaTela").style.display = "flex";
+
+  digitarTexto(
+`eu prometo cuidar de você, te mimar, cuidar de você, te dar atenção como você merece e cuidar de você como uma princesa… 💖
+
+mas eu sempre vou te perturbar 🙃`,
+    document.getElementById("textoDigitando")
+  );
+}
+
+// PERGUNTA 2
+function finalResposta(valor) {
+  localStorage.setItem("respostaFinal", valor);
+
+  document.getElementById("segundaTela").style.display = "none";
+  document.getElementById("finalTela").style.display = "flex";
+
+  digitarTexto(
+    "O objetivo disso tudo está na página 33… 👀",
+    document.getElementById("textoFinal"),
+    40
+  );
+
+  setTimeout(() => {
+    document.getElementById("finalTela").style.display = "none";
+    document.getElementById("capa").style.display = "flex";
+  }, 5000);
+}
 
 // ==========================
-// 🔥 ADIÇÃO (NÃO MEXE NO RESTO)
+// 🔥 MOSTRAR NA PÁGINA 50
 // ==========================
 
 function mostrarPerguntasRespostas() {
@@ -186,10 +231,6 @@ function mostrarPerguntasRespostas() {
     el.style.top = "10px";
     el.style.left = "10px";
     el.style.right = "10px";
-    el.style.background = "rgba(255,255,255,0.9)";
-    el.style.borderRadius = "15px";
-    el.style.padding = "10px";
-    el.style.fontSize = "14px";
     el.style.zIndex = "10";
 
     box.appendChild(el);
@@ -199,8 +240,8 @@ function mostrarPerguntasRespostas() {
     const r1 = localStorage.getItem("resposta1");
     const r2 = localStorage.getItem("respostaFinal");
 
-    let resp1 = r1 === "sim" ? "SIM 💕" : "NÃO 😢";
-    let resp2 = r2 === "sim" ? "SIM 💍" : "NÃO ❌";
+    let resp1 = r1 === "sim" ? "SIM 💕" : r1 === "nao" ? "NÃO 😢" : "...";
+    let resp2 = r2 === "sim" ? "SIM 💍" : r2 === "nao" ? "NÃO ❌" : "...";
 
     el.innerText = `💖 Você vai ser a minha só minha?
 Resposta: ${resp1}
@@ -219,7 +260,6 @@ Resposta: ${resp2}
 👀 O objetivo disso tudo está na página 33…`;
 
     el.style.display = "block";
-
   } else {
     el.style.display = "none";
   }
