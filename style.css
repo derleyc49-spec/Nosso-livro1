@@ -29,6 +29,7 @@ button {
   background: #ff4d6d;
   color: white;
 }
+
 .pesquisa-topo button {
   transition: 0.2s;
 }
@@ -36,26 +37,32 @@ button {
 .pesquisa-topo button:active {
   transform: scale(0.95);
 }
+
 /* CAPA */
 #capa {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(#fdf7f9, #f3e6ea);
 }
 
 .card {
-  background: #e8cfcf;
-  padding: 40px;
-  border-radius: 30px;
-  width: 90%;
-  max-width: 350px;
+  width: 320px;
+  padding: 35px;
+  border-radius: 40px;
   text-align: center;
+  background: rgba(255, 240, 245, 0.75);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.08),
+    inset 0 0 0 3px #f4c6d2,
+    inset 0 0 0 6px #f9dfe6;
 }
 
 .foto {
-  width: 130px;
-  height: 130px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
 }
 
@@ -67,9 +74,9 @@ button {
   align-items: center;
 }
 
-/* CAIXA DO LIVRO */
+/* CAIXA */
 .box {
-  position: relative; /* 🔥 importante */
+  position: relative;
   width: 90%;
   max-width: 400px;
   height: 70vh;
@@ -79,10 +86,10 @@ button {
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-/* 🔥 TOPO (BOTÕES FORA DA PÁGINA) */
+/* TOPO */
 .topo {
   position: absolute;
-  top: -45px; /* sobe pra fora */
+  top: -45px;
   right: 15px;
   display: flex;
   gap: 10px;
@@ -122,73 +129,7 @@ textarea {
   border-radius: 15px;
 }
 
-/* CORAÇÕES */
-#coracoes {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.coracao {
-  position: absolute;
-  bottom: 0;
-  animation: subir 4s linear;
-}
-
-@keyframes subir {
-  from { transform: translateY(0); }
-  to { transform: translateY(-100vh); opacity: 0; }
-}
-#capa {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(#fdf7f9, #f3e6ea);
-}
-
-.card {
-  width: 320px;
-  padding: 35px;
-  border-radius: 40px;
-  text-align: center;
-  background: #fff0f5;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-.foto {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-}
-
-.card button {
-  margin-top: 15px;
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: none;
-  background: #ff4d6d;
-  color: white;
-}
-.card {
-  background: rgba(255, 240, 245, 0.75);
-  backdrop-filter: blur(12px);
-
-  box-shadow:
-    0 20px 40px rgba(0,0,0,0.08),
-    inset 0 0 0 3px #f4c6d2,
-    inset 0 0 0 6px #f9dfe6;
-}
-/* SCROLL SUAVE */
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  -webkit-overflow-scrolling: touch;
-}
-/* SUAVIDADE GERAL */
+/* SUAVIDADE */
 button {
   transition: all 0.2s ease;
 }
@@ -197,29 +138,33 @@ button:active {
   transform: scale(0.95);
 }
 
-textarea {
-  transition: all 0.2s ease;
-}
-/* ANIMAÇÃO DE PÁGINA */
-.box {
-  transition: transform 0.3s ease, opacity 0.3s ease;
+/* ========================= */
+/* 🔥 ADIÇÕES (NÃO MEXE NO RESTO) */
+/* ========================= */
+
+/* CENTRALIZAR PERGUNTAS */
+#perguntaTela,
+#segundaTela,
+#finalTela {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  flex-direction: column;
 }
 
-.animar {
-  transform: translateX(30px);
-  opacity: 0;
-}
-/* EFEITO DESLIZAR */
-.box {
-  transition: transform 0.35s ease, opacity 0.35s ease;
+/* TEXTO DIGITANDO */
+#segundaTela p {
+  max-width: 300px;
 }
 
-.slide-left {
-  transform: translateX(40px);
-  opacity: 0;
-}
-
-.slide-right {
-  transform: translateX(-40px);
-  opacity: 0;
+/* PÁGINA 50 */
+#overlayPerguntas {
+  position: absolute;
+  top: 70px;
+  left: 20px;
+  right: 20px;
+  font-size: 15px;
+  line-height: 1.5;
 }
