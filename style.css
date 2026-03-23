@@ -223,3 +223,25 @@ textarea {
   transform: translateX(-40px);
   opacity: 0;
 }
+/* ==========================
+📖 EFEITO VIRAR PÁGINA
+========================== */
+
+.box {
+  perspective: 1200px;
+}
+
+.virar-next {
+  transform: rotateY(-90deg);
+  transition: transform 0.4s ease;
+}
+
+.virar-prev {
+  transform: rotateY(90deg);
+  transition: transform 0.4s ease;
+}
+
+.virando {
+  transform: rotateY(0deg);
+  transition: transform 0.4s ease;
+}
