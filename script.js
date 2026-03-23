@@ -308,3 +308,22 @@ Resposta: ${resp2}
 // GLOBAL EXTRA
 window.resposta = resposta;
 window.finalResposta = finalResposta;
+// ==========================
+// 💖 RESPOSTA PRIMEIRA PERGUNTA
+// ==========================
+function resposta(valor) {
+  localStorage.setItem("resposta1", valor);
+
+  document.getElementById("perguntaTela").style.display = "none";
+  document.getElementById("segundaTela").style.display = "flex";
+}
+
+// ==========================
+// 💍 RESPOSTA FINAL
+// ==========================
+function finalResposta(valor) {
+  localStorage.setItem("respostaFinal", valor);
+
+  document.getElementById("segundaTela").style.display = "none";
+  document.getElementById("capa").style.display = "flex";
+}
