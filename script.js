@@ -27,13 +27,13 @@ let corTextoAtual = "#000000";
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
-// 🔥 LOGIN CORRIGIDO
+// LOGIN (CORRIGIDO)
 function verificarSenha() {
   const senha = document.getElementById("senhaInput").value.trim();
 
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
-    document.getElementById("perguntaTela").style.display = "flex"; // 🔥 aqui corrige
+    document.getElementById("perguntaTela").style.display = "flex";
     tocarMusica();
   } else {
     alert("Senha errada 😅");
@@ -168,7 +168,6 @@ window.irPagina = irPagina;
 // 🔥 PERGUNTAS
 // ==========================
 
-// DIGITAR
 function digitarTexto(txt, el, vel = 25) {
   el.innerHTML = "";
   let i = 0;
@@ -182,7 +181,6 @@ function digitarTexto(txt, el, vel = 25) {
   escrever();
 }
 
-// PERGUNTA 1
 function resposta(valor) {
   localStorage.setItem("resposta1", valor);
 
@@ -197,7 +195,6 @@ mas eu sempre vou te perturbar 🙃`,
   );
 }
 
-// PERGUNTA 2
 function finalResposta(valor) {
   localStorage.setItem("respostaFinal", valor);
 
@@ -217,7 +214,25 @@ function finalResposta(valor) {
 }
 
 // ==========================
-// 🔥 MOSTRAR NA PÁGINA 50
+// 🔥 CORREÇÃO DOS BOTÕES
+// ==========================
+
+setTimeout(() => {
+  const b1 = document.querySelectorAll("#perguntaTela button");
+  if (b1.length >= 2) {
+    b1[0].onclick = () => resposta("sim");
+    b1[1].onclick = () => resposta("nao");
+  }
+
+  const b2 = document.querySelectorAll("#segundaTela button");
+  if (b2.length >= 2) {
+    b2[0].onclick = () => finalResposta("sim");
+    b2[1].onclick = () => finalResposta("nao");
+  }
+}, 500);
+
+// ==========================
+// 🔥 PÁGINA 50
 // ==========================
 
 function mostrarPerguntasRespostas() {
@@ -226,13 +241,11 @@ function mostrarPerguntasRespostas() {
   if (!el) {
     el = document.createElement("div");
     el.id = "overlayPerguntas";
-
     el.style.position = "absolute";
     el.style.top = "10px";
     el.style.left = "10px";
     el.style.right = "10px";
     el.style.zIndex = "10";
-
     box.appendChild(el);
   }
 
