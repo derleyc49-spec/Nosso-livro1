@@ -14,7 +14,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔐 SENHA
+// SENHA
 const senhaCorreta = "Mary2026";
 
 let pagina = 1;
@@ -27,7 +27,9 @@ let corTextoAtual = "#000000";
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
-// LOGIN (COM CHUVA)
+// ==========================
+// 🔐 LOGIN (CORRIGIDO)
+// ==========================
 function verificarSenha() {
   const senha = document.getElementById("senhaInput").value.trim();
 
@@ -38,8 +40,7 @@ function verificarSenha() {
 
     setTimeout(() => {
       document.getElementById("perguntaTela").style.display = "flex";
-      ativarBotoesPergunta(); // 🔥 garante clique
-    }, 10000);
+    }, 4000);
 
     tocarMusica();
   } else {
@@ -47,7 +48,38 @@ function verificarSenha() {
   }
 }
 
-// ABRIR LIVRO
+// ==========================
+// 💖 PERGUNTAS
+// ==========================
+function resposta(valor) {
+  localStorage.setItem("resposta1", valor);
+
+  document.getElementById("perguntaTela").style.display = "none";
+
+  const tela2 = document.getElementById("segundaTela");
+
+  tela2.style.display = "flex";
+  tela2.style.position = "fixed";
+  tela2.style.top = "0";
+  tela2.style.left = "0";
+  tela2.style.width = "100%";
+  tela2.style.height = "100%";
+  tela2.style.background = "#fff";
+  tela2.style.justifyContent = "center";
+  tela2.style.alignItems = "center";
+  tela2.style.flexDirection = "column";
+}
+
+function finalResposta(valor) {
+  localStorage.setItem("respostaFinal", valor);
+
+  document.getElementById("segundaTela").style.display = "none";
+  document.getElementById("capa").style.display = "flex";
+}
+
+// ==========================
+// 📖 LIVRO
+// ==========================
 function abrirLivro() {
   document.getElementById("capa").style.display = "none";
   document.getElementById("livro").style.display = "flex";
@@ -74,7 +106,6 @@ function carregar() {
       const data = docSnap.data();
 
       texto.value = data.texto || "";
-
       corFundoAtual = data.corFundo || "#ffffff";
       corTextoAtual = data.corTexto || "#000000";
 
@@ -84,8 +115,6 @@ function carregar() {
       texto.value = "";
     }
   });
-
-  mostrarPerguntasRespostas();
 }
 
 // NAVEGAÇÃO
@@ -128,202 +157,71 @@ function tocarMusica() {
   }
 }
 
-// 📱 SWIPE
-let startX = 0;
-let endX = 0;
+// ==========================
+// 🌺 CHUVA
+// ==========================
+function iniciarChuvaEmoji() {
+  const emojis = ["❤️","💖","🥰","😍","🌹","💍"];
 
-if (box) {
-  box.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-  });
+  const intervalo = setInterval(() => {
+    const emoji = document.createElement("div");
 
-  box.addEventListener("touchend", (e) => {
-    endX = e.changedTouches[0].clientX;
-    let diff = startX - endX;
+    emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
 
-    if (diff > 50) proximaAnimada();
-    if (diff < -50) voltarAnimada();
-  });
+    emoji.style.position = "fixed";
+    emoji.style.top = "-20px";
+    emoji.style.left = Math.random() * window.innerWidth + "px";
+    emoji.style.fontSize = "24px";
+
+    document.body.appendChild(emoji);
+
+    const duracao = 3000;
+
+    emoji.animate([
+      { transform: "translateY(0)" },
+      { transform: `translateY(${window.innerHeight}px)` }
+    ], { duration: duracao });
+
+    setTimeout(() => emoji.remove(), duracao);
+
+  }, 80);
+
+  setTimeout(() => clearInterval(intervalo), 4000);
 }
 
-// CORES
-document.getElementById("corFundo").oninput = (e) => {
-  corFundoAtual = e.target.value;
-  box.style.background = corFundoAtual;
-  salvarPagina();
+// ==========================
+// ✨ ANIMAÇÃO PÁGINA
+// ==========================
+function animarPagina(direcao) {
+  if (!box) return;
+
+  box.style.transition = "all 0.25s ease";
+  box.style.transform =
+    direcao === "next" ? "translateX(-40px)" : "translateX(40px)";
+  box.style.opacity = "0";
+
+  setTimeout(() => {
+    box.style.transform = "translateX(0)";
+    box.style.opacity = "1";
+  }, 150);
+}
+
+const _proxima = proxima;
+const _voltar = voltar;
+
+window.proxima = function () {
+  animarPagina("next");
+  setTimeout(() => _proxima(), 120);
 };
 
-document.getElementById("corTexto").oninput = (e) => {
-  corTextoAtual = e.target.value;
-  texto.style.color = corTextoAtual;
-  salvarPagina();
-};
-
-// FONTE
-document.getElementById("fonte").onchange = (e) => {
-  texto.style.fontFamily = e.target.value;
+window.voltar = function () {
+  animarPagina("prev");
+  setTimeout(() => _voltar(), 120);
 };
 
 // GLOBAL
 window.verificarSenha = verificarSenha;
 window.abrirLivro = abrirLivro;
 window.irPagina = irPagina;
-
-// ==========================
-// 🌺 CHUVA
-// ==========================
-
-function iniciarChuvaEmoji() {
-  const emojis = ["🫀","🩷","❤️","😍","🥰","🌺","🥀","🌹","🫧","❤️‍🔥","💖","🐻","💍","🫂","🥺","🥳","🤩","🤯","😤"];
-
-  const intervalo = setInterval(() => {
-    const emoji = document.createElement("div");
-    emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
-
-    emoji.style.position = "fixed";
-    emoji.style.top = "-30px";
-    emoji.style.left = Math.random() * window.innerWidth + "px";
-    emoji.style.fontSize = (Math.random() * 10 + 20) + "px";
-    emoji.style.zIndex = "999";
-
-    document.body.appendChild(emoji);
-
-    const duracao = Math.random() * 3000 + 3000;
-
-    emoji.animate([
-      { transform: "translateY(0)", opacity: 1 },
-      { transform: `translateY(${window.innerHeight + 100}px)`, opacity: 0 }
-    ], {
-      duration: duracao,
-      easing: "linear"
-    });
-
-    setTimeout(() => emoji.remove(), duracao);
-
-  }, 60);
-
-  setTimeout(() => clearInterval(intervalo), 10000);
-}
-
-// ==========================
-// ✨ ANIMAÇÃO
-// ==========================
-
-function animarDirecao(direcao) {
-  box.style.transition = "none";
-  box.style.opacity = "0";
-  box.style.transform = direcao === "next"
-    ? "translateX(40px)"
-    : "translateX(-40px)";
-
-  requestAnimationFrame(() => {
-    box.style.transition = "all 0.35s ease";
-    box.style.opacity = "1";
-    box.style.transform = "translateX(0)";
-  });
-}
-
-function proximaAnimada() {
-  animarDirecao("next");
-  setTimeout(() => proxima(), 120);
-}
-
-function voltarAnimada() {
-  animarDirecao("prev");
-  setTimeout(() => voltar(), 120);
-}
-
-window.proxima = proximaAnimada;
-window.voltar = voltarAnimada;
-
-// ==========================
-// 🔥 BOTÕES FUNCIONANDO
-// ==========================
-
-function ativarBotoesPergunta() {
-  const tela1 = document.getElementById("perguntaTela");
-  const tela2 = document.getElementById("segundaTela");
-
-  if (tela1) {
-    const btns = tela1.querySelectorAll("button");
-    if (btns[0]) btns[0].onclick = () => resposta("sim");
-    if (btns[1]) btns[1].onclick = () => resposta("nao");
-  }
-
-  if (tela2) {
-    const btns2 = tela2.querySelectorAll("button");
-    if (btns2[0]) btns2[0].onclick = () => finalResposta("sim");
-    if (btns2[1]) btns2[1].onclick = () => finalResposta("nao");
-  }
-}
-
-// roda sempre pra garantir
-setInterval(ativarBotoesPergunta, 500);
-
-// ==========================
-// 📄 PÁGINA 50
-// ==========================
-
-function mostrarPerguntasRespostas() {
-  let el = document.getElementById("overlayPerguntas");
-
-  if (!el) {
-    el = document.createElement("div");
-    el.id = "overlayPerguntas";
-    el.style.position = "absolute";
-    el.style.top = "70px";
-    el.style.left = "20px";
-    el.style.right = "20px";
-    el.style.zIndex = "10";
-    box.appendChild(el);
-  }
-
-  if (pagina === 50) {
-    const r1 = localStorage.getItem("resposta1");
-    const r2 = localStorage.getItem("respostaFinal");
-
-    let resp1 = r1 === "sim" ? "Simm🥰" : r1 === "nao" ? "Não😖" : "";
-    let resp2 = r2 === "sim" ? "Simm🥰" : r2 === "nao" ? "Não😖" : "";
-
-    el.innerText = `💖 Você vai ser a minha só minha?
-Resposta: ${resp1}
-
--------------------------
-
-eu prometo cuidar de você...
-
-Aceita? 💍
-Resposta: ${resp2}
-
--------------------------
-
-👀 O objetivo disso tudo está na página 33…`;
-
-    el.style.display = "block";
-  } else {
-    el.style.display = "none";
-  }
-}
-
-// GLOBAL EXTRA
 window.resposta = resposta;
 window.finalResposta = finalResposta;
-// ==========================
-// 💖 RESPOSTA PRIMEIRA PERGUNTA
-// ==========================
-function resposta(valor) {
-  localStorage.setItem("resposta1", valor);
-
-  document.getElementById("perguntaTela").style.display = "none";
-  document.getElementById("segundaTela").style.display = "flex";
-}
-
-// ==========================
-// 💍 RESPOSTA FINAL
-// ==========================
-function finalResposta(valor) {
-  localStorage.setItem("respostaFinal", valor);
-
-  document.getElementById("segundaTela").style.display = "none";
-  document.getElementById("capa").style.display = "flex";
-}
