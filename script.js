@@ -14,17 +14,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔐 SENHA
 const senhaCorreta = "Mary2026";
 
 let pagina = 1;
 const total = 300;
 
-// CORES (mantido)
 let corFundoAtual = "#ffffff";
 let corTextoAtual = "#000000";
 
-// ELEMENTOS
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
@@ -34,11 +31,20 @@ function verificarSenha() {
 
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
-    document.getElementById("capa").style.display = "flex";
+    document.getElementById("perguntaTela").style.display = "block";
+
     tocarMusica();
   } else {
     alert("Senha errada 😅");
   }
+}
+
+// 💖 RESPOSTA
+function resposta(valor) {
+  localStorage.setItem("respostaAmor", valor);
+
+  document.getElementById("perguntaTela").style.display = "none";
+  document.getElementById("capa").style.display = "flex";
 }
 
 // ABRIR LIVRO
@@ -76,13 +82,11 @@ function carregar() {
       texto.style.color = corTextoAtual;
     } else {
       texto.value = "";
-      box.style.background = "#ffffff";
-      texto.style.color = "#000000";
     }
   });
 }
 
-// 🔥 NOVO EFEITO DESLIZAR
+// ANIMAÇÃO
 function animarTroca(direcao, callback) {
   if (direcao === "next") {
     box.classList.add("slide-left");
@@ -96,7 +100,7 @@ function animarTroca(direcao, callback) {
   }, 200);
 }
 
-// NAVEGAÇÃO (ATUALIZADO)
+// NAVEGAÇÃO
 function proxima() {
   if (pagina < total) {
     animarTroca("next", () => {
@@ -118,7 +122,7 @@ function voltar() {
   }
 }
 
-// PESQUISA (mantido)
+// PESQUISA
 function irPagina() {
   const num = parseInt(document.getElementById("buscarPagina").value);
 
@@ -142,7 +146,7 @@ function tocarMusica() {
   }
 }
 
-// SWIPE (mantido)
+// SWIPE
 let startX = 0;
 let endX = 0;
 
@@ -160,7 +164,7 @@ if (box) {
   });
 }
 
-// CORES (mantido + salva)
+// CORES
 document.getElementById("corFundo").oninput = (e) => {
   corFundoAtual = e.target.value;
   box.style.background = corFundoAtual;
@@ -173,7 +177,6 @@ document.getElementById("corTexto").oninput = (e) => {
   salvarPagina();
 };
 
-// FONTE
 document.getElementById("fonte").onchange = (e) => {
   texto.style.fontFamily = e.target.value;
 };
@@ -184,3 +187,4 @@ window.abrirLivro = abrirLivro;
 window.proxima = proxima;
 window.voltar = voltar;
 window.irPagina = irPagina;
+window.resposta = resposta;
