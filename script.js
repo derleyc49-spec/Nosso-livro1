@@ -281,3 +281,85 @@ Resposta: ${resp2}
     el.style.display = "none";
   }
 }
+// 🌺 CHUVA INSANA DE EMOJI
+function iniciarChuvaEmoji() {
+  const emojis = ["🫀","🩷","❤️","😍","🥰","🌺","🥀","🌹","🫧","❤️‍🔥","💖","🐻","💍","🫂","🥺","🥳","🤩","🤯","😤"];
+
+  let container = document.getElementById("chuvaEmoji");
+
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "chuvaEmoji";
+    document.body.appendChild(container);
+  }
+
+  const intervalo = setInterval(() => {
+    const emoji = document.createElement("div");
+    emoji.className = "emoji";
+    emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+    emoji.style.left = Math.random() * 100 + "vw";
+    emoji.style.animationDuration = (Math.random() * 3 + 2) + "s";
+
+    container.appendChild(emoji);
+
+    setTimeout(() => emoji.remove(), 4000);
+
+  }, 80); // 🔥 INSANO
+
+  setTimeout(() => {
+    clearInterval(intervalo);
+    container.remove();
+  }, 10000); // 10 segundos
+}
+
+// 🔥 ATIVAR CHUVA DEPOIS DA SENHA
+const oldLogin = verificarSenha;
+
+window.verificarSenha = function () {
+  const senha = document.getElementById("senhaInput").value.trim();
+
+  if (senha === senhaCorreta) {
+    document.getElementById("senhaTela").style.display = "none";
+
+    iniciarChuvaEmoji();
+
+    setTimeout(() => {
+      if (localStorage.getItem("jaRespondeu") === "sim") {
+        document.getElementById("capa").style.display = "flex";
+      } else {
+        document.getElementById("perguntaTela").style.display = "flex";
+      }
+    }, 10000);
+
+    tocarMusica();
+  } else {
+    alert("Senha errada 😅");
+  }
+};
+
+// ✨ ANIMAÇÃO AO TROCAR PÁGINA
+const oldProxima = proxima;
+const oldVoltar = voltar;
+
+window.proxima = function () {
+  box.classList.add("fade-slide");
+  setTimeout(() => box.classList.remove("fade-slide"), 400);
+  oldProxima();
+};
+
+window.voltar = function () {
+  box.classList.add("fade-slide");
+  setTimeout(() => box.classList.remove("fade-slide"), 400);
+  oldVoltar();
+};
+
+// ❤️ CORREÇÃO NÃO😖
+function corrigirResposta() {
+  let r1 = localStorage.getItem("resposta1");
+  let r2 = localStorage.getItem("respostaFinal");
+
+  if (r1 === "nao") localStorage.setItem("resposta1", "nao");
+  if (r2 === "nao") localStorage.setItem("respostaFinal", "nao");
+}
+corrigirResposta();
