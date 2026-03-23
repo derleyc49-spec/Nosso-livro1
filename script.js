@@ -27,7 +27,7 @@ let corTextoAtual = "#000000";
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
-// LOGIN CORRIGIDO
+// LOGIN (COM CHUVA)
 function verificarSenha() {
   const senha = document.getElementById("senhaInput").value.trim();
 
@@ -38,6 +38,7 @@ function verificarSenha() {
 
     setTimeout(() => {
       document.getElementById("perguntaTela").style.display = "flex";
+      ativarBotoesPergunta(); // 🔥 garante clique
     }, 10000);
 
     tocarMusica();
@@ -87,7 +88,7 @@ function carregar() {
   mostrarPerguntasRespostas();
 }
 
-// NAVEGAÇÃO ORIGINAL
+// NAVEGAÇÃO
 function proxima() {
   if (pagina < total) {
     pagina++;
@@ -169,7 +170,7 @@ window.abrirLivro = abrirLivro;
 window.irPagina = irPagina;
 
 // ==========================
-// 🌺 CHUVA REAL (CORRIGIDA)
+// 🌺 CHUVA
 // ==========================
 
 function iniciarChuvaEmoji() {
@@ -184,7 +185,6 @@ function iniciarChuvaEmoji() {
     emoji.style.left = Math.random() * window.innerWidth + "px";
     emoji.style.fontSize = (Math.random() * 10 + 20) + "px";
     emoji.style.zIndex = "999";
-    emoji.style.pointerEvents = "none";
 
     document.body.appendChild(emoji);
 
@@ -206,7 +206,7 @@ function iniciarChuvaEmoji() {
 }
 
 // ==========================
-// ✨ ANIMAÇÃO SUAVE
+// ✨ ANIMAÇÃO
 // ==========================
 
 function animarDirecao(direcao) {
@@ -235,6 +235,30 @@ function voltarAnimada() {
 
 window.proxima = proximaAnimada;
 window.voltar = voltarAnimada;
+
+// ==========================
+// 🔥 BOTÕES FUNCIONANDO
+// ==========================
+
+function ativarBotoesPergunta() {
+  const tela1 = document.getElementById("perguntaTela");
+  const tela2 = document.getElementById("segundaTela");
+
+  if (tela1) {
+    const btns = tela1.querySelectorAll("button");
+    if (btns[0]) btns[0].onclick = () => resposta("sim");
+    if (btns[1]) btns[1].onclick = () => resposta("nao");
+  }
+
+  if (tela2) {
+    const btns2 = tela2.querySelectorAll("button");
+    if (btns2[0]) btns2[0].onclick = () => finalResposta("sim");
+    if (btns2[1]) btns2[1].onclick = () => finalResposta("nao");
+  }
+}
+
+// roda sempre pra garantir
+setInterval(ativarBotoesPergunta, 500);
 
 // ==========================
 // 📄 PÁGINA 50
@@ -266,9 +290,7 @@ Resposta: ${resp1}
 
 -------------------------
 
-eu prometo cuidar de você, te mimar, cuidar de você, te dar atenção como você merece e cuidar de você como uma princesa… 💖
-
-mas eu sempre vou te perturbar 🙃
+eu prometo cuidar de você...
 
 Aceita? 💍
 Resposta: ${resp2}
@@ -282,21 +304,7 @@ Resposta: ${resp2}
     el.style.display = "none";
   }
 }
-// 🔥 CORRIGIR CLIQUE DOS BOTÕES (100% FUNCIONAL)
 
-setTimeout(() => {
-  const btn1 = document.querySelectorAll("#perguntaTela button");
-
-  if (btn1.length >= 2) {
-    btn1[0].addEventListener("click", () => resposta("sim"));
-    btn1[1].addEventListener("click", () => resposta("nao"));
-  }
-
-  const btn2 = document.querySelectorAll("#segundaTela button");
-
-  if (btn2.length >= 2) {
-    btn2[0].addEventListener("click", () => finalResposta("sim"));
-    btn2[1].addEventListener("click", () => finalResposta("nao"));
-  }
-
-}, 1000);
+// GLOBAL EXTRA
+window.resposta = resposta;
+window.finalResposta = finalResposta;
