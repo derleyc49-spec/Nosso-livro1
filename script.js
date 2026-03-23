@@ -19,6 +19,10 @@ const senhaCorreta = "Mary2026";
 let pagina = 1;
 const total = 300;
 
+// 🔥 NOVO (cores)
+let corFundoAtual = "#ffffff";
+let corTextoAtual = "#000000";
+
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
@@ -44,19 +48,33 @@ function abrirLivro() {
   carregar();
 }
 
-// SALVAR
+// SALVAR (ATUALIZADO)
 texto.addEventListener("input", async () => {
   await setDoc(doc(db, "livro", "pagina_" + pagina), {
-    texto: texto.value
+    texto: texto.value,
+    corFundo: corFundoAtual,
+    corTexto: corTextoAtual
   });
 });
 
-// CARREGAR
+// CARREGAR (ATUALIZADO)
 function carregar() {
   document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
   onSnapshot(doc(db, "livro", "pagina_" + pagina), (docSnap) => {
-    texto.value = docSnap.exists() ? docSnap.data().texto || "" : "";
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+
+      texto.value = data.texto || "";
+
+      corFundoAtual = data.corFundo || "#ffffff";
+      corTextoAtual = data.corTexto || "#000000";
+
+      box.style.background = corFundoAtual;
+      texto.style.color = corTextoAtual;
+    } else {
+      texto.value = "";
+    }
   });
 }
 
@@ -134,13 +152,15 @@ if (box) {
   });
 }
 
-// CORES
+// CORES (ATUALIZADO)
 document.getElementById("corFundo").oninput = (e) => {
-  box.style.background = e.target.value;
+  corFundoAtual = e.target.value;
+  box.style.background = corFundoAtual;
 };
 
 document.getElementById("corTexto").oninput = (e) => {
-  texto.style.color = e.target.value;
+  corTextoAtual = e.target.value;
+  texto.style.color = corTextoAtual;
 };
 
 document.getElementById("fonte").onchange = (e) => {
