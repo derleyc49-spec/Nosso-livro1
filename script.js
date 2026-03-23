@@ -28,6 +28,24 @@ const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
 // ==========================
+// ✨ DIGITAR TEXTO
+// ==========================
+function digitarTexto(texto, elemento, velocidade = 30) {
+  elemento.innerHTML = "";
+  let i = 0;
+
+  function escrever() {
+    if (i < texto.length) {
+      elemento.innerHTML += texto.charAt(i);
+      i++;
+      setTimeout(escrever, velocidade);
+    }
+  }
+
+  escrever();
+}
+
+// ==========================
 // 🔐 LOGIN
 // ==========================
 function verificarSenha() {
@@ -39,7 +57,13 @@ function verificarSenha() {
     iniciarChuvaEmoji();
 
     setTimeout(() => {
-      document.getElementById("perguntaTela").style.display = "flex";
+      const tela = document.getElementById("perguntaTela");
+      tela.style.display = "flex";
+
+      const titulo = tela.querySelector("h1");
+      if (titulo) {
+        digitarTexto("Você vai ser a minha só minha? 💖", titulo);
+      }
     }, 4000);
 
     tocarMusica();
@@ -68,6 +92,18 @@ function resposta(valor) {
   tela2.style.justifyContent = "center";
   tela2.style.alignItems = "center";
   tela2.style.flexDirection = "column";
+
+  const texto2 = tela2.querySelector("p");
+
+  if (texto2) {
+    digitarTexto(
+`eu prometo cuidar de você, te mimar, cuidar de você, te dar atenção como você merece e cuidar de você como uma princesa… 💖
+
+mas eu sempre vou te perturbar 🙃`,
+    texto2,
+    25
+    );
+  }
 }
 
 function finalResposta(valor) {
@@ -76,7 +112,32 @@ function finalResposta(valor) {
   salvarRespostasNoLivro();
 
   document.getElementById("segundaTela").style.display = "none";
-  document.getElementById("capa").style.display = "flex";
+
+  const telaFinal = document.createElement("div");
+
+  telaFinal.style.position = "fixed";
+  telaFinal.style.top = "0";
+  telaFinal.style.left = "0";
+  telaFinal.style.width = "100%";
+  telaFinal.style.height = "100%";
+  telaFinal.style.background = "#fff";
+  telaFinal.style.display = "flex";
+  telaFinal.style.justifyContent = "center";
+  telaFinal.style.alignItems = "center";
+  telaFinal.style.flexDirection = "column";
+  telaFinal.style.zIndex = "999";
+
+  const texto = document.createElement("h2");
+
+  telaFinal.appendChild(texto);
+  document.body.appendChild(telaFinal);
+
+  digitarTexto("👀 O objetivo disso tudo está na página 33...", texto, 40);
+
+  setTimeout(() => {
+    telaFinal.remove();
+    document.getElementById("capa").style.display = "flex";
+  }, 4000);
 }
 
 // ==========================
@@ -152,38 +213,42 @@ function carregar() {
   });
 }
 
-// NAVEGAÇÃO
-function proxima() {
-  if (pagina < total) {
-    pagina++;
-    carregar();
-  }
+// ==========================
+// 🌺 CHUVA REAL
+// ==========================
+function iniciarChuvaEmoji() {
+  const emojis = ["🫀","🩷","❤️","😍","🥰","🌺","🌹","💖","💍","🫂"];
+
+  const intervalo = setInterval(() => {
+    const emoji = document.createElement("div");
+
+    emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+    emoji.style.position = "fixed";
+    emoji.style.top = "-40px";
+    emoji.style.left = Math.random() * window.innerWidth + "px";
+    emoji.style.fontSize = (Math.random() * 15 + 20) + "px";
+
+    document.body.appendChild(emoji);
+
+    const anim = emoji.animate([
+      { transform: "translateY(0px)" },
+      { transform: `translateY(${window.innerHeight + 100}px)` }
+    ], {
+      duration: Math.random() * 4000 + 3000,
+      easing: "linear"
+    });
+
+    anim.onfinish = () => emoji.remove();
+
+  }, 80);
+
+  setTimeout(() => clearInterval(intervalo), 10000);
 }
 
-function voltar() {
-  if (pagina > 1) {
-    pagina--;
-    carregar();
-  } else {
-    document.getElementById("livro").style.display = "none";
-    document.getElementById("capa").style.display = "flex";
-  }
-}
-
-// PESQUISA
-function irPagina() {
-  const num = parseInt(document.getElementById("buscarPagina").value);
-
-  if (!num || num < 1 || num > total) {
-    alert("Página inválida 😅");
-    return;
-  }
-
-  pagina = num;
-  carregar();
-}
-
+// ==========================
 // 🎧 MÚSICA
+// ==========================
 function tocarMusica() {
   const audio = document.getElementById("musica");
   if (audio) {
@@ -193,51 +258,7 @@ function tocarMusica() {
 }
 
 // ==========================
-// 🌺 CHUVA REALISTA
-// ==========================
-function iniciarChuvaEmoji() {
-  const emojis = ["🫀","🩷","❤️","😍","🥰","🌺","🥀","🌹","🫧","❤️‍🔥","💖","🐻","💍","🫂","🥺","🥳","🤩","🤯","😤"];
-
-  const duracaoTotal = 10000;
-  const inicio = Date.now();
-
-  const intervalo = setInterval(() => {
-
-    if (Date.now() - inicio > duracaoTotal) {
-      clearInterval(intervalo);
-      return;
-    }
-
-    const emoji = document.createElement("div");
-
-    emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-
-    emoji.style.position = "fixed";
-    emoji.style.top = "-40px";
-    emoji.style.left = Math.random() * window.innerWidth + "px";
-    emoji.style.fontSize = (Math.random() * 15 + 20) + "px";
-    emoji.style.zIndex = "999";
-    emoji.style.pointerEvents = "none";
-
-    document.body.appendChild(emoji);
-
-    const velocidade = Math.random() * 4000 + 3000;
-
-    const anim = emoji.animate([
-      { transform: "translateY(0px)" },
-      { transform: `translateY(${window.innerHeight + 100}px)` }
-    ], {
-      duration: velocidade,
-      easing: "linear"
-    });
-
-    anim.onfinish = () => emoji.remove();
-
-  }, 70);
-}
-
-// ==========================
-// ✨ ANIMAÇÃO
+// ✨ ANIMAÇÃO LIVRO
 // ==========================
 function animarPagina(direcao) {
   if (!box) return;
