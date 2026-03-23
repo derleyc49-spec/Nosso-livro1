@@ -14,7 +14,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// SENHA
+// 🔐 SENHA
 const senhaCorreta = "Mary2026";
 
 let pagina = 1;
@@ -27,44 +27,18 @@ let corTextoAtual = "#000000";
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
-// ==========================
-// ✨ DIGITAR TEXTO
-// ==========================
-function digitarTexto(texto, elemento, velocidade = 30) {
-  elemento.innerHTML = "";
-  let i = 0;
-
-  function escrever() {
-    if (i < texto.length) {
-      elemento.innerHTML += texto.charAt(i);
-      i++;
-      setTimeout(escrever, velocidade);
-    }
-  }
-
-  escrever();
-}
-
-// ==========================
-// 🔐 LOGIN
-// ==========================
+// LOGIN
 function verificarSenha() {
   const senha = document.getElementById("senhaInput").value.trim();
 
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
 
-    iniciarChuvaEmoji();
-
-    setTimeout(() => {
-      const tela = document.getElementById("perguntaTela");
-      tela.style.display = "flex";
-
-      const titulo = tela.querySelector("h1");
-      if (titulo) {
-        digitarTexto("Você vai ser a minha só minha? 💖", titulo);
-      }
-    }, 4000);
+    if (localStorage.getItem("jaRespondeu") === "sim") {
+      document.getElementById("capa").style.display = "flex";
+    } else {
+      document.getElementById("perguntaTela").style.display = "flex";
+    }
 
     tocarMusica();
   } else {
@@ -72,86 +46,221 @@ function verificarSenha() {
   }
 }
 
+// ABRIR LIVRO
+function abrirLivro() {
+  document.getElementById("capa").style.display = "none";
+  document.getElementById("livro").style.display = "flex";
+  carregar();
+}
+
+// SALVAR
+async function salvarPagina() {
+  await setDoc(doc(db, "livro", "pagina_" + pagina), {
+    texto: texto.value,
+    corFundo: corFundoAtual,
+    corTexto: corTextoAtual
+  });
+}
+
+texto.addEventListener("input", salvarPagina);
+
+// CARREGAR
+function carregar() {
+  document.getElementById("paginaNum").innerText = pagina + "/" + total;
+
+  onSnapshot(doc(db, "livro", "pagina_" + pagina), (docSnap) => {
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+
+      texto.value = data.texto || "";
+
+      corFundoAtual = data.corFundo || "#ffffff";
+      corTextoAtual = data.corTexto || "#000000";
+
+      box.style.background = corFundoAtual;
+      texto.style.color = corTextoAtual;
+    } else {
+      texto.value = "";
+    }
+  });
+
+  mostrarPerguntasRespostas();
+}
+
+// NAVEGAÇÃO
+function proxima() {
+  if (pagina < total) {
+    pagina++;
+    carregar();
+  }
+}
+
+function voltar() {
+  if (pagina > 1) {
+    pagina--;
+    carregar();
+  } else {
+    document.getElementById("livro").style.display = "none";
+    document.getElementById("capa").style.display = "flex";
+  }
+}
+
+// PESQUISA
+function irPagina() {
+  const num = parseInt(document.getElementById("buscarPagina").value);
+
+  if (!num || num < 1 || num > total) {
+    alert("Página inválida 😅");
+    return;
+  }
+
+  pagina = num;
+  carregar();
+}
+
+// 🎧 MÚSICA
+function tocarMusica() {
+  const audio = document.getElementById("musica");
+  if (audio) {
+    audio.volume = 0.4;
+    audio.play();
+  }
+}
+
+// 📱 SWIPE
+let startX = 0;
+let endX = 0;
+
+if (box) {
+  box.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  box.addEventListener("touchend", (e) => {
+    endX = e.changedTouches[0].clientX;
+    let diff = startX - endX;
+
+    if (diff > 50) proxima();
+    if (diff < -50) voltar();
+  });
+}
+
+// CORES
+document.getElementById("corFundo").oninput = (e) => {
+  corFundoAtual = e.target.value;
+  box.style.background = corFundoAtual;
+  salvarPagina();
+};
+
+document.getElementById("corTexto").oninput = (e) => {
+  corTextoAtual = e.target.value;
+  texto.style.color = corTextoAtual;
+  salvarPagina();
+};
+
+// FONTE
+document.getElementById("fonte").onchange = (e) => {
+  texto.style.fontFamily = e.target.value;
+};
+
+// GLOBAL
+window.verificarSenha = verificarSenha;
+window.abrirLivro = abrirLivro;
+window.proxima = proxima;
+window.voltar = voltar;
+window.irPagina = irPagina;
+
 // ==========================
-// 💖 PERGUNTAS
+// 🔥 PERGUNTAS
 // ==========================
+
+function digitarTexto(txt, el, vel = 25) {
+  el.innerHTML = "";
+  let i = 0;
+  function escrever() {
+    if (i < txt.length) {
+      el.innerHTML += txt.charAt(i);
+      i++;
+      setTimeout(escrever, vel);
+    }
+  }
+  escrever();
+}
+
 function resposta(valor) {
   localStorage.setItem("resposta1", valor);
 
   document.getElementById("perguntaTela").style.display = "none";
+  document.getElementById("segundaTela").style.display = "flex";
 
-  const tela2 = document.getElementById("segundaTela");
-
-  tela2.style.display = "flex";
-  tela2.style.position = "fixed";
-  tela2.style.top = "0";
-  tela2.style.left = "0";
-  tela2.style.width = "100%";
-  tela2.style.height = "100%";
-  tela2.style.background = "#fff";
-  tela2.style.justifyContent = "center";
-  tela2.style.alignItems = "center";
-  tela2.style.flexDirection = "column";
-
-  const texto2 = tela2.querySelector("p");
-
-  if (texto2) {
-    digitarTexto(
+  digitarTexto(
 `eu prometo cuidar de você, te mimar, cuidar de você, te dar atenção como você merece e cuidar de você como uma princesa… 💖
 
 mas eu sempre vou te perturbar 🙃`,
-    texto2,
-    25
-    );
-  }
+    document.getElementById("textoDigitando")
+  );
 }
 
 function finalResposta(valor) {
   localStorage.setItem("respostaFinal", valor);
-
-  salvarRespostasNoLivro();
+  localStorage.setItem("jaRespondeu", "sim");
 
   document.getElementById("segundaTela").style.display = "none";
+  document.getElementById("finalTela").style.display = "flex";
 
-  const telaFinal = document.createElement("div");
-
-  telaFinal.style.position = "fixed";
-  telaFinal.style.top = "0";
-  telaFinal.style.left = "0";
-  telaFinal.style.width = "100%";
-  telaFinal.style.height = "100%";
-  telaFinal.style.background = "#fff";
-  telaFinal.style.display = "flex";
-  telaFinal.style.justifyContent = "center";
-  telaFinal.style.alignItems = "center";
-  telaFinal.style.flexDirection = "column";
-  telaFinal.style.zIndex = "999";
-
-  const texto = document.createElement("h2");
-
-  telaFinal.appendChild(texto);
-  document.body.appendChild(telaFinal);
-
-  digitarTexto("👀 O objetivo disso tudo está na página 33...", texto, 40);
+  digitarTexto(
+    "O objetivo disso tudo está na página 33… 👀",
+    document.getElementById("textoFinal"),
+    40
+  );
 
   setTimeout(() => {
-    telaFinal.remove();
+    document.getElementById("finalTela").style.display = "none";
     document.getElementById("capa").style.display = "flex";
   }, 4000);
 }
 
-// ==========================
-// 💾 PÁGINA 50
-// ==========================
-async function salvarRespostasNoLivro() {
-  const r1 = localStorage.getItem("resposta1");
-  const r2 = localStorage.getItem("respostaFinal");
+// 🔥 BOTÕES FUNCIONANDO
+setTimeout(() => {
+  const b1 = document.querySelectorAll("#perguntaTela button");
+  if (b1.length >= 2) {
+    b1[0].onclick = () => resposta("sim");
+    b1[1].onclick = () => resposta("nao");
+  }
 
-  const resp1 = r1 === "sim" ? "Simm🥰" : "Não😖";
-  const resp2 = r2 === "sim" ? "Simm💍" : "Não😖";
+  const b2 = document.querySelectorAll("#segundaTela button");
+  if (b2.length >= 2) {
+    b2[0].onclick = () => finalResposta("sim");
+    b2[1].onclick = () => finalResposta("nao");
+  }
+}, 500);
 
-  const textoFinal = String(
-`💖 Você vai ser a minha só minha?
+// ==========================
+// 🔥 PÁGINA 50
+// ==========================
+
+function mostrarPerguntasRespostas() {
+  let el = document.getElementById("overlayPerguntas");
+
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "overlayPerguntas";
+    el.style.position = "absolute";
+    el.style.top = "70px";
+    el.style.left = "20px";
+    el.style.right = "20px";
+    el.style.zIndex = "10";
+    box.appendChild(el);
+  }
+
+  if (pagina === 50) {
+    const r1 = localStorage.getItem("resposta1");
+    const r2 = localStorage.getItem("respostaFinal");
+
+    let resp1 = r1 === "sim" ? "Simm🥰" : r1 === "nao" ? "😖" : "...";
+    let resp2 = r2 === "sim" ? "Simm🥰" : r2 === "nao" ? "😖" : "...";
+
+    el.innerText = `💖 Você vai ser a minha só minha?
 Resposta: ${resp1}
 
 -------------------------
@@ -165,131 +274,10 @@ Resposta: ${resp2}
 
 -------------------------
 
-👀 O objetivo disso tudo está na página 33…`
-  );
+👀 O objetivo disso tudo está na página 33…`;
 
-  await setDoc(doc(db, "livro", "pagina_50"), {
-    texto: textoFinal,
-    corFundo: "#ffffff",
-    corTexto: "#000000"
-  });
-}
-
-// ==========================
-// 📖 LIVRO
-// ==========================
-function abrirLivro() {
-  document.getElementById("capa").style.display = "none";
-  document.getElementById("livro").style.display = "flex";
-  carregar();
-}
-
-async function salvarPagina() {
-  await setDoc(doc(db, "livro", "pagina_" + pagina), {
-    texto: texto.value,
-    corFundo: corFundoAtual,
-    corTexto: corTextoAtual
-  });
-}
-
-texto.addEventListener("input", salvarPagina);
-
-function carregar() {
-  document.getElementById("paginaNum").innerText = pagina + "/" + total;
-
-  onSnapshot(doc(db, "livro", "pagina_" + pagina), (docSnap) => {
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-
-      texto.value = data.texto || "";
-      corFundoAtual = data.corFundo || "#ffffff";
-      corTextoAtual = data.corTexto || "#000000";
-
-      box.style.background = corFundoAtual;
-      texto.style.color = corTextoAtual;
-    } else {
-      texto.value = "";
-    }
-  });
-}
-
-// ==========================
-// 🌺 CHUVA REAL
-// ==========================
-function iniciarChuvaEmoji() {
-  const emojis = ["🫀","🩷","❤️","😍","🥰","🌺","🌹","💖","💍","🫂"];
-
-  const intervalo = setInterval(() => {
-    const emoji = document.createElement("div");
-
-    emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-
-    emoji.style.position = "fixed";
-    emoji.style.top = "-40px";
-    emoji.style.left = Math.random() * window.innerWidth + "px";
-    emoji.style.fontSize = (Math.random() * 15 + 20) + "px";
-
-    document.body.appendChild(emoji);
-
-    const anim = emoji.animate([
-      { transform: "translateY(0px)" },
-      { transform: `translateY(${window.innerHeight + 100}px)` }
-    ], {
-      duration: Math.random() * 4000 + 3000,
-      easing: "linear"
-    });
-
-    anim.onfinish = () => emoji.remove();
-
-  }, 80);
-
-  setTimeout(() => clearInterval(intervalo), 10000);
-}
-
-// ==========================
-// 🎧 MÚSICA
-// ==========================
-function tocarMusica() {
-  const audio = document.getElementById("musica");
-  if (audio) {
-    audio.volume = 0.4;
-    audio.play();
+    el.style.display = "block";
+  } else {
+    el.style.display = "none";
   }
 }
-
-// ==========================
-// ✨ ANIMAÇÃO LIVRO
-// ==========================
-function animarPagina(direcao) {
-  if (!box) return;
-
-  box.style.transition = "all 0.25s ease";
-  box.style.transform =
-    direcao === "next" ? "translateX(-40px)" : "translateX(40px)";
-  box.style.opacity = "0";
-
-  setTimeout(() => {
-    box.style.transform = "translateX(0)";
-    box.style.opacity = "1";
-  }, 150);
-}
-
-const _proxima = proxima;
-const _voltar = voltar;
-
-window.proxima = function () {
-  animarPagina("next");
-  setTimeout(() => _proxima(), 120);
-};
-
-window.voltar = function () {
-  animarPagina("prev");
-  setTimeout(() => _voltar(), 120);
-};
-
-// GLOBAL
-window.verificarSenha = verificarSenha;
-window.abrirLivro = abrirLivro;
-window.irPagina = irPagina;
-window.resposta = resposta;
-window.finalResposta = finalResposta;
