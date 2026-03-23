@@ -20,7 +20,7 @@ const senhaCorreta = "Mary2026";
 let pagina = 1;
 const total = 300;
 
-// 🔥 NOVO (cores)
+// CORES (mantido)
 let corFundoAtual = "#ffffff";
 let corTextoAtual = "#000000";
 
@@ -35,7 +35,6 @@ function verificarSenha() {
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
     document.getElementById("capa").style.display = "flex";
-
     tocarMusica();
   } else {
     alert("Senha errada 😅");
@@ -49,7 +48,7 @@ function abrirLivro() {
   carregar();
 }
 
-// 🔥 NOVO (FUNÇÃO SALVAR)
+// SALVAR
 async function salvarPagina() {
   await setDoc(doc(db, "livro", "pagina_" + pagina), {
     texto: texto.value,
@@ -58,10 +57,9 @@ async function salvarPagina() {
   });
 }
 
-// SALVAR TEXTO
 texto.addEventListener("input", salvarPagina);
 
-// CARREGAR (ATUALIZADO COM COR)
+// CARREGAR
 function carregar() {
   document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
@@ -84,25 +82,43 @@ function carregar() {
   });
 }
 
-// NAVEGAÇÃO
+// 🔥 NOVO EFEITO DESLIZAR
+function animarTroca(direcao, callback) {
+  if (direcao === "next") {
+    box.classList.add("slide-left");
+  } else {
+    box.classList.add("slide-right");
+  }
+
+  setTimeout(() => {
+    callback();
+    box.classList.remove("slide-left", "slide-right");
+  }, 200);
+}
+
+// NAVEGAÇÃO (ATUALIZADO)
 function proxima() {
   if (pagina < total) {
-    pagina++;
-    carregar();
+    animarTroca("next", () => {
+      pagina++;
+      carregar();
+    });
   }
 }
 
 function voltar() {
   if (pagina > 1) {
-    pagina--;
-    carregar();
+    animarTroca("prev", () => {
+      pagina--;
+      carregar();
+    });
   } else {
     document.getElementById("livro").style.display = "none";
     document.getElementById("capa").style.display = "flex";
   }
 }
 
-// PESQUISA
+// PESQUISA (mantido)
 function irPagina() {
   const num = parseInt(document.getElementById("buscarPagina").value);
 
@@ -111,11 +127,13 @@ function irPagina() {
     return;
   }
 
-  pagina = num;
-  carregar();
+  animarTroca("next", () => {
+    pagina = num;
+    carregar();
+  });
 }
 
-// 🎧 MÚSICA
+// MÚSICA
 function tocarMusica() {
   const audio = document.getElementById("musica");
   if (audio) {
@@ -124,7 +142,7 @@ function tocarMusica() {
   }
 }
 
-// 📱 SWIPE
+// SWIPE (mantido)
 let startX = 0;
 let endX = 0;
 
@@ -142,7 +160,7 @@ if (box) {
   });
 }
 
-// 🔥 CORES (AGORA SALVA NA HORA)
+// CORES (mantido + salva)
 document.getElementById("corFundo").oninput = (e) => {
   corFundoAtual = e.target.value;
   box.style.background = corFundoAtual;
