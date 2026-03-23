@@ -14,7 +14,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔐 SENHA
+// SENHA
 const senhaCorreta = "Mary2026";
 
 let pagina = 1;
@@ -73,7 +73,7 @@ function resposta(valor) {
 function finalResposta(valor) {
   localStorage.setItem("respostaFinal", valor);
 
-  salvarRespostasNoLivro(); // 🔥 página 50
+  salvarRespostasNoLivro();
 
   document.getElementById("segundaTela").style.display = "none";
   document.getElementById("capa").style.display = "flex";
@@ -86,10 +86,10 @@ async function salvarRespostasNoLivro() {
   const r1 = localStorage.getItem("resposta1");
   const r2 = localStorage.getItem("respostaFinal");
 
-  let resp1 = r1 === "sim" ? "Simm🥰" : "Não😖";
-  let resp2 = r2 === "sim" ? "Simm💍" : "Não😖";
+  const resp1 = r1 === "sim" ? "Simm🥰" : "Não😖";
+  const resp2 = r2 === "sim" ? "Simm💍" : "Não😖";
 
-  const textoFinal = 
+  const textoFinal = String(
 `💖 Você vai ser a minha só minha?
 Resposta: ${resp1}
 
@@ -104,7 +104,8 @@ Resposta: ${resp2}
 
 -------------------------
 
-👀 O objetivo disso tudo está na página 33…`;
+👀 O objetivo disso tudo está na página 33…`
+  );
 
   await setDoc(doc(db, "livro", "pagina_50"), {
     texto: textoFinal,
@@ -122,7 +123,6 @@ function abrirLivro() {
   carregar();
 }
 
-// SALVAR
 async function salvarPagina() {
   await setDoc(doc(db, "livro", "pagina_" + pagina), {
     texto: texto.value,
@@ -133,7 +133,6 @@ async function salvarPagina() {
 
 texto.addEventListener("input", salvarPagina);
 
-// CARREGAR
 function carregar() {
   document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
@@ -194,35 +193,47 @@ function tocarMusica() {
 }
 
 // ==========================
-// 🌺 CHUVA
+// 🌺 CHUVA REALISTA
 // ==========================
 function iniciarChuvaEmoji() {
-  const emojis = ["🫀","🩷","❤️","😍","🥰","🌺","🥀","🌹","🫧","❤️‍🔥","💖"];
+  const emojis = ["🫀","🩷","❤️","😍","🥰","🌺","🥀","🌹","🫧","❤️‍🔥","💖","🐻","💍","🫂","🥺","🥳","🤩","🤯","😤"];
+
+  const duracaoTotal = 10000;
+  const inicio = Date.now();
 
   const intervalo = setInterval(() => {
+
+    if (Date.now() - inicio > duracaoTotal) {
+      clearInterval(intervalo);
+      return;
+    }
+
     const emoji = document.createElement("div");
 
     emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
 
     emoji.style.position = "fixed";
-    emoji.style.top = "-20px";
+    emoji.style.top = "-40px";
     emoji.style.left = Math.random() * window.innerWidth + "px";
-    emoji.style.fontSize = "24px";
+    emoji.style.fontSize = (Math.random() * 15 + 20) + "px";
+    emoji.style.zIndex = "999";
+    emoji.style.pointerEvents = "none";
 
     document.body.appendChild(emoji);
 
-    const duracao = 3000;
+    const velocidade = Math.random() * 4000 + 3000;
 
-    emoji.animate([
-      { transform: "translateY(0)" },
-      { transform: `translateY(${window.innerHeight}px)` }
-    ], { duration: duracao });
+    const anim = emoji.animate([
+      { transform: "translateY(0px)" },
+      { transform: `translateY(${window.innerHeight + 100}px)` }
+    ], {
+      duration: velocidade,
+      easing: "linear"
+    });
 
-    setTimeout(() => emoji.remove(), duracao);
+    anim.onfinish = () => emoji.remove();
 
-  }, 80);
-
-  setTimeout(() => clearInterval(intervalo), 4000);
+  }, 70);
 }
 
 // ==========================
