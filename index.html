@@ -16,12 +16,30 @@
   <button onclick="verificarSenha()">Entrar</button>
 </div>
 
-<!-- 💖 PERGUNTA -->
-<div id="perguntaTela" style="display:none; text-align:center; padding:20px;">
+<!-- 💖 PERGUNTA 1 -->
+<div id="perguntaTela" class="telaCentro" style="display:none;">
   <h2>Você vai ser a minha só minha? 💖</h2>
 
-  <button onclick="resposta('sim')">Sim 💕</button>
-  <button onclick="resposta('nao')">Não 😢</button>
+  <div>
+    <button onclick="resposta('sim')">Sim 💕</button>
+    <button onclick="resposta('nao')">Não 😢</button>
+  </div>
+</div>
+
+<!-- 💍 PERGUNTA 2 -->
+<div id="segundaTela" class="telaCentro" style="display:none;">
+  <p>
+    eu prometo cuidar de você, te mimar, cuidar de você, te dar atenção como você merece
+    e cuidar de você como uma princesa… 💖<br><br>
+    mas eu sempre vou te perturbar 🙃
+  </p>
+
+  <h3>Aceita? 💍</h3>
+
+  <div>
+    <button onclick="finalResposta('sim')">Sim ✅</button>
+    <button onclick="finalResposta('nao')">Não ❌</button>
+  </div>
 </div>
 
 <!-- CAPA -->
