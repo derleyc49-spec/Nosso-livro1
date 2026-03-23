@@ -20,7 +20,7 @@ const senhaCorreta = "Mary2026";
 let pagina = 1;
 const total = 300;
 
-// 🔥 CORES
+// 🔥 NOVO (cores)
 let corFundoAtual = "#ffffff";
 let corTextoAtual = "#000000";
 
@@ -49,7 +49,7 @@ function abrirLivro() {
   carregar();
 }
 
-// SALVAR
+// 🔥 NOVO (FUNÇÃO SALVAR)
 async function salvarPagina() {
   await setDoc(doc(db, "livro", "pagina_" + pagina), {
     texto: texto.value,
@@ -58,9 +58,10 @@ async function salvarPagina() {
   });
 }
 
+// SALVAR TEXTO
 texto.addEventListener("input", salvarPagina);
 
-// 🔥 CARREGAR (COM ADIÇÃO SEGURA)
+// CARREGAR (ATUALIZADO COM COR)
 function carregar() {
   document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
@@ -68,32 +69,13 @@ function carregar() {
     if (docSnap.exists()) {
       const data = docSnap.data();
 
-      let base = data.texto || "";
+      texto.value = data.texto || "";
 
       corFundoAtual = data.corFundo || "#ffffff";
       corTextoAtual = data.corTexto || "#000000";
 
       box.style.background = corFundoAtual;
       texto.style.color = corTextoAtual;
-
-      // 👉 ADIÇÃO SEGURA (PÁGINA 50)
-      if (pagina === 50) {
-        const r = localStorage.getItem("respostaFinal");
-
-        let resp = "";
-
-        if (r === "sim") resp = "SIM 💕";
-        if (r === "nao") resp = "NÃO 😢";
-
-        texto.value = base + `
-
-💖 Você vai ser a minha só minha?
-
-Resposta: ${resp}`;
-      } else {
-        texto.value = base;
-      }
-
     } else {
       texto.value = "";
       box.style.background = "#ffffff";
@@ -160,7 +142,7 @@ if (box) {
   });
 }
 
-// 🎨 CORES
+// 🔥 CORES (AGORA SALVA NA HORA)
 document.getElementById("corFundo").oninput = (e) => {
   corFundoAtual = e.target.value;
   box.style.background = corFundoAtual;
