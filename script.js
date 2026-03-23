@@ -31,19 +31,32 @@ function verificarSenha() {
 
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
-    document.getElementById("perguntaTela").style.display = "block";
-
+    document.getElementById("perguntaTela").style.display = "flex";
     tocarMusica();
   } else {
     alert("Senha errada 😅");
   }
 }
 
-// 💖 RESPOSTA
+// 💖 PRIMEIRA RESPOSTA
 function resposta(valor) {
-  localStorage.setItem("respostaAmor", valor);
+  localStorage.setItem("resposta1", valor);
 
   document.getElementById("perguntaTela").style.display = "none";
+
+  if (valor === "sim") {
+    document.getElementById("segundaTela").style.display = "flex";
+  } else {
+    alert("Mesmo com esse não vou continuar respeitando você 💖");
+    document.getElementById("capa").style.display = "flex";
+  }
+}
+
+// 💍 SEGUNDA RESPOSTA
+function finalResposta(valor) {
+  localStorage.setItem("respostaFinal", valor);
+
+  document.getElementById("segundaTela").style.display = "none";
   document.getElementById("capa").style.display = "flex";
 }
 
@@ -188,3 +201,4 @@ window.proxima = proxima;
 window.voltar = voltar;
 window.irPagina = irPagina;
 window.resposta = resposta;
+window.finalResposta = finalResposta;
