@@ -14,7 +14,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// SENHA
+// 🔐 SENHA
 const senhaCorreta = "Mary2026";
 
 let pagina = 1;
@@ -28,7 +28,7 @@ const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
 // ==========================
-// 🔐 LOGIN (CORRIGIDO)
+// 🔐 LOGIN
 // ==========================
 function verificarSenha() {
   const senha = document.getElementById("senhaInput").value.trim();
@@ -73,8 +73,44 @@ function resposta(valor) {
 function finalResposta(valor) {
   localStorage.setItem("respostaFinal", valor);
 
+  salvarRespostasNoLivro(); // 🔥 página 50
+
   document.getElementById("segundaTela").style.display = "none";
   document.getElementById("capa").style.display = "flex";
+}
+
+// ==========================
+// 💾 PÁGINA 50
+// ==========================
+async function salvarRespostasNoLivro() {
+  const r1 = localStorage.getItem("resposta1");
+  const r2 = localStorage.getItem("respostaFinal");
+
+  let resp1 = r1 === "sim" ? "Simm🥰" : "Não😖";
+  let resp2 = r2 === "sim" ? "Simm💍" : "Não😖";
+
+  const textoFinal = 
+`💖 Você vai ser a minha só minha?
+Resposta: ${resp1}
+
+-------------------------
+
+eu prometo cuidar de você, te mimar, cuidar de você, te dar atenção como você merece e cuidar de você como uma princesa… 💖
+
+mas eu sempre vou te perturbar 🙃
+
+Aceita? 💍
+Resposta: ${resp2}
+
+-------------------------
+
+👀 O objetivo disso tudo está na página 33…`;
+
+  await setDoc(doc(db, "livro", "pagina_50"), {
+    texto: textoFinal,
+    corFundo: "#ffffff",
+    corTexto: "#000000"
+  });
 }
 
 // ==========================
@@ -161,7 +197,7 @@ function tocarMusica() {
 // 🌺 CHUVA
 // ==========================
 function iniciarChuvaEmoji() {
-  const emojis = ["❤️","💖","🥰","😍","🌹","💍"];
+  const emojis = ["🫀","🩷","❤️","😍","🥰","🌺","🥀","🌹","🫧","❤️‍🔥","💖"];
 
   const intervalo = setInterval(() => {
     const emoji = document.createElement("div");
@@ -190,7 +226,7 @@ function iniciarChuvaEmoji() {
 }
 
 // ==========================
-// ✨ ANIMAÇÃO PÁGINA
+// ✨ ANIMAÇÃO
 // ==========================
 function animarPagina(direcao) {
   if (!box) return;
