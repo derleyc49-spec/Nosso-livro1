@@ -29,7 +29,6 @@ button {
   background: #ff4d6d;
   color: white;
 }
-
 .pesquisa-topo button {
   transition: 0.2s;
 }
@@ -37,32 +36,26 @@ button {
 .pesquisa-topo button:active {
   transform: scale(0.95);
 }
-
 /* CAPA */
 #capa {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(#fdf7f9, #f3e6ea);
 }
 
 .card {
-  width: 320px;
-  padding: 35px;
-  border-radius: 40px;
+  background: #e8cfcf;
+  padding: 40px;
+  border-radius: 30px;
+  width: 90%;
+  max-width: 350px;
   text-align: center;
-  background: rgba(255, 240, 245, 0.75);
-  backdrop-filter: blur(12px);
-  box-shadow:
-    0 20px 40px rgba(0,0,0,0.08),
-    inset 0 0 0 3px #f4c6d2,
-    inset 0 0 0 6px #f9dfe6;
 }
 
 .foto {
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
 }
 
@@ -74,9 +67,9 @@ button {
   align-items: center;
 }
 
-/* CAIXA */
+/* CAIXA DO LIVRO */
 .box {
-  position: relative;
+  position: relative; /* 🔥 importante */
   width: 90%;
   max-width: 400px;
   height: 70vh;
@@ -86,10 +79,10 @@ button {
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-/* TOPO */
+/* 🔥 TOPO (BOTÕES FORA DA PÁGINA) */
 .topo {
   position: absolute;
-  top: -45px;
+  top: -45px; /* sobe pra fora */
   right: 15px;
   display: flex;
   gap: 10px;
@@ -129,7 +122,73 @@ textarea {
   border-radius: 15px;
 }
 
-/* SUAVIDADE */
+/* CORAÇÕES */
+#coracoes {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.coracao {
+  position: absolute;
+  bottom: 0;
+  animation: subir 4s linear;
+}
+
+@keyframes subir {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100vh); opacity: 0; }
+}
+#capa {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(#fdf7f9, #f3e6ea);
+}
+
+.card {
+  width: 320px;
+  padding: 35px;
+  border-radius: 40px;
+  text-align: center;
+  background: #fff0f5;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.foto {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.card button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+}
+.card {
+  background: rgba(255, 240, 245, 0.75);
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.08),
+    inset 0 0 0 3px #f4c6d2,
+    inset 0 0 0 6px #f9dfe6;
+}
+/* SCROLL SUAVE */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-overflow-scrolling: touch;
+}
+/* SUAVIDADE GERAL */
 button {
   transition: all 0.2s ease;
 }
@@ -138,73 +197,29 @@ button:active {
   transform: scale(0.95);
 }
 
-/* ========================= */
-/* 🔥 ADIÇÕES (NÃO MEXE NO RESTO) */
-/* ========================= */
-
-/* CENTRALIZAR PERGUNTAS */
-#perguntaTela,
-#segundaTela,
-#finalTela {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-  flex-direction: column;
+textarea {
+  transition: all 0.2s ease;
+}
+/* ANIMAÇÃO DE PÁGINA */
+.box {
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* TEXTO DIGITANDO */
-#segundaTela p {
-  max-width: 300px;
+.animar {
+  transform: translateX(30px);
+  opacity: 0;
+}
+/* EFEITO DESLIZAR */
+.box {
+  transition: transform 0.35s ease, opacity 0.35s ease;
 }
 
-/* PÁGINA 50 */
-#overlayPerguntas {
-  position: absolute;
-  top: 70px;
-  left: 20px;
-  right: 20px;
-  font-size: 15px;
-  line-height: 1.5;
-}
-/* 🌺 CHUVA DE EMOJI */
-#chuvaEmoji {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 999;
+.slide-left {
+  transform: translateX(40px);
+  opacity: 0;
 }
 
-.emoji {
-  position: absolute;
-  top: -50px;
-  font-size: 22px;
-  animation: cair linear forwards;
-}
-
-@keyframes cair {
-  to {
-    transform: translateY(110vh);
-    opacity: 0;
-  }
-}
-
-/* ✨ ANIMAÇÃO DE PÁGINA */
-.fade-slide {
-  animation: slideFade 0.4s ease;
-}
-
-@keyframes slideFade {
-  from {
-    transform: translateX(40px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+.slide-right {
+  transform: translateX(-40px);
+  opacity: 0;
 }
