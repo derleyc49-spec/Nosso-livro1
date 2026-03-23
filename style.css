@@ -28,13 +28,7 @@ button {
   border: none;
   background: #ff4d6d;
   color: white;
-  transition: all 0.2s ease;
 }
-
-button:active {
-  transform: scale(0.95);
-}
-
 .pesquisa-topo button {
   transition: 0.2s;
 }
@@ -42,42 +36,27 @@ button:active {
 .pesquisa-topo button:active {
   transform: scale(0.95);
 }
-
 /* CAPA */
 #capa {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(#fdf7f9, #f3e6ea);
 }
 
 .card {
-  width: 320px;
-  padding: 35px;
-  border-radius: 40px;
+  background: #e8cfcf;
+  padding: 40px;
+  border-radius: 30px;
+  width: 90%;
+  max-width: 350px;
   text-align: center;
-  background: rgba(255, 240, 245, 0.75);
-  backdrop-filter: blur(12px);
-  box-shadow:
-    0 20px 40px rgba(0,0,0,0.08),
-    inset 0 0 0 3px #f4c6d2,
-    inset 0 0 0 6px #f9dfe6;
 }
 
 .foto {
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
-}
-
-.card button {
-  margin-top: 15px;
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: none;
-  background: #ff4d6d;
-  color: white;
 }
 
 /* LIVRO */
@@ -90,7 +69,7 @@ button:active {
 
 /* CAIXA DO LIVRO */
 .box {
-  position: relative;
+  position: relative; /* 🔥 importante */
   width: 90%;
   max-width: 400px;
   height: 70vh;
@@ -98,16 +77,12 @@ button:active {
   border-radius: 25px;
   padding: 20px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-
-  /* 🔥 animação corrigida */
-  transition: transform 0.35s ease, opacity 0.35s ease;
-  will-change: transform, opacity;
 }
 
-/* TOPO */
+/* 🔥 TOPO (BOTÕES FORA DA PÁGINA) */
 .topo {
   position: absolute;
-  top: -45px;
+  top: -45px; /* sobe pra fora */
   right: 15px;
   display: flex;
   gap: 10px;
@@ -125,7 +100,6 @@ textarea {
   resize: none;
   font-size: 16px;
   background: transparent;
-  transition: all 0.2s ease;
 }
 
 /* BOTÕES */
@@ -166,7 +140,46 @@ textarea {
   from { transform: translateY(0); }
   to { transform: translateY(-100vh); opacity: 0; }
 }
+#capa {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(#fdf7f9, #f3e6ea);
+}
 
+.card {
+  width: 320px;
+  padding: 35px;
+  border-radius: 40px;
+  text-align: center;
+  background: #fff0f5;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.foto {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.card button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+}
+.card {
+  background: rgba(255, 240, 245, 0.75);
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.08),
+    inset 0 0 0 3px #f4c6d2,
+    inset 0 0 0 6px #f9dfe6;
+}
 /* SCROLL SUAVE */
 html {
   scroll-behavior: smooth;
@@ -175,36 +188,38 @@ html {
 body {
   -webkit-overflow-scrolling: touch;
 }
+/* SUAVIDADE GERAL */
+button {
+  transition: all 0.2s ease;
+}
 
-/* ===== EFEITO DESLIZAR FINAL ===== */
+button:active {
+  transform: scale(0.95);
+}
 
-/* 👉 PRÓXIMA */
+textarea {
+  transition: all 0.2s ease;
+}
+/* ANIMAÇÃO DE PÁGINA */
+.box {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.animar {
+  transform: translateX(30px);
+  opacity: 0;
+}
+/* EFEITO DESLIZAR */
+.box {
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
 .slide-left {
-  transform: translateX(-120px);
+  transform: translateX(40px);
   opacity: 0;
 }
 
-/* 👉 VOLTAR */
 .slide-right {
-  transform: translateX(120px);
+  transform: translateX(-40px);
   opacity: 0;
-}/* ===== CENTRALIZAÇÃO DAS TELAS ===== */
-
-.telaCentro {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-}
-
-.telaCentro h2,
-.telaCentro p {
-  margin-bottom: 30px;
-}
-
-.telaCentro button {
-  margin: 10px;
 }
