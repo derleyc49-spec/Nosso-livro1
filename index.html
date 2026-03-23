@@ -16,29 +16,6 @@
   <button onclick="verificarSenha()">Entrar</button>
 </div>
 
-<!-- 🌺 CHUVA -->
-<div id="emojiTela" style="display:none;"></div>
-
-<!-- 💖 PERGUNTA -->
-<div id="perguntaTela" class="telaCentro" style="display:none;">
-  <h2>Você vai ser a minha só minha? 💖</h2>
-  <button onclick="resposta('sim')">Sim 💕</button>
-  <button onclick="resposta('nao')">Não 😢</button>
-</div>
-
-<!-- 💍 SEGUNDA -->
-<div id="segundaTela" class="telaCentro" style="display:none;">
-  <p id="textoDigitando"></p>
-  <h3>Aceita? 💍</h3>
-  <button onclick="finalResposta('sim')">Sim ✅</button>
-  <button onclick="finalResposta('nao')">Não ❌</button>
-</div>
-
-<!-- 👀 FINAL -->
-<div id="finalTela" class="telaCentro" style="display:none;">
-  <h2 id="textoFinal"></h2>
-</div>
-
 <!-- CAPA -->
 <div id="capa" style="display:none;">
   <div class="card">
@@ -52,16 +29,18 @@
 
 <!-- LIVRO -->
 <div id="livro" style="display:none;">
+  
   <div class="box">
 
     <div class="pesquisa-topo">
-      <input type="number" id="buscarPagina">
+      <input type="number" id="buscarPagina" placeholder="Página...">
       <button onclick="irPagina()">🔍</button>
     </div>
 
     <div class="topo">
       <input type="color" id="corFundo">
       <input type="color" id="corTexto">
+      
       <select id="fonte">
         <option value="Arial">Arial</option>
         <option value="Georgia">Georgia</option>
@@ -79,8 +58,10 @@
     </div>
 
   </div>
+
 </div>
 
+<!-- 🎧 MÚSICA -->
 <audio id="musica" src="musica4.mp3" loop></audio>
 
 <script type="module" src="script.js"></script>
