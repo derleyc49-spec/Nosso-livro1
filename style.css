@@ -133,8 +133,7 @@ textarea {
 @keyframes subir {
   from { transform: translateY(0); }
   to { transform: translateY(-100vh); opacity: 0; }
-}
-/* ==========================
+}/* ==========================
 💖 CAPA ESTILO PREMIUM
 ========================== */
 
@@ -233,4 +232,81 @@ body::after {
 @keyframes float {
   0% { transform: translateY(100vh); }
   100% { transform: translateY(-100vh); }
+}
+/* FUNDO */
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #f5e6ea, #f2dce2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+/* CAPA */
+#capa {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* CARD PREMIUM */
+.card {
+  width: 320px;
+  padding: 30px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.1),
+    inset 0 1px 1px rgba(255,255,255,0.4);
+
+  text-align: center;
+}
+
+/* FOTO */
+.foto {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 10px auto;
+  display: block;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* NOME */
+.card h2 {
+  font-size: 22px;
+  margin: 10px 0;
+  color: #222;
+}
+
+/* TEXTO */
+.card p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* BOTÃO PREMIUM */
+.card button {
+  background: linear-gradient(135deg, #ff6b81, #ff3d5a);
+  border: none;
+  padding: 12px 35px;
+  border-radius: 25px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+
+  box-shadow: 0 10px 20px rgba(255, 80, 100, 0.4);
+}
+
+.card button:hover {
+  transform: scale(1.05);
 }
