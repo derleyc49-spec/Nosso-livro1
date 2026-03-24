@@ -132,66 +132,61 @@ textarea {
 💖 MELHORIAS (INTOCADAS)
 ========================== */
 
-/* fundo capa */
 #capa {
   background: radial-gradient(circle at top, #f8e9ed, #e9d2d8);
 }
 
-/* card premium */
 #capa .card {
   background: linear-gradient(145deg, #f3d9df, #e8cfd5);
-
   border: 1px solid rgba(255,255,255,0.6);
-
   box-shadow:
     0 25px 60px rgba(0,0,0,0.15),
     0 0 0 5px rgba(255,255,255,0.2),
     inset 0 2px 5px rgba(255,255,255,0.6);
 }
 
-/* botão capa */
 #capa .card button {
   background: linear-gradient(135deg, #ff7a8a, #ff4d6d);
-
   box-shadow:
     0 10px 25px rgba(255, 80, 100, 0.5),
     0 0 10px rgba(255, 80, 100, 0.3);
 }
 
-/* fundo livro */
 #livro {
   background: radial-gradient(circle at top, #f8e9ed, #e9d2d8);
 }
 
-/* livro premium */
 #livro .box {
   border-radius: 30px;
-
   box-shadow:
     0 30px 70px rgba(0,0,0,0.15),
     0 5px 20px rgba(255, 120, 140, 0.2);
 }
 
-/* botões livro */
 #livro .botoes button {
   background: linear-gradient(135deg, #ff7a8a, #ff4d6d);
-
   box-shadow:
     0 8px 20px rgba(255, 80, 100, 0.4);
 }
 
-/* pagina */
 #livro #paginaNum {
   background: #fff;
-
   box-shadow:
     0 5px 10px rgba(0,0,0,0.1);
 }
 
 /* ==========================
-🚫 REMOÇÃO DAS LINHAS (SÓ ISSO)
+🚫 CORREÇÃO FINAL (REMOVE TODAS AS LINHAS)
 ========================== */
 
 #livro textarea {
   background: transparent !important;
+}
+
+#livro .box {
+  background-image: none !important;
+}
+
+#livro * {
+  background-image: none !important;
 }
