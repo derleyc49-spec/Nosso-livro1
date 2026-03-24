@@ -223,3 +223,51 @@ textarea {
   transform: translateX(-40px);
   opacity: 0;
 }
+/* ==========================
+📖 ANIMAÇÃO 900 (PÁGINA)
+========================== */
+
+.box {
+  position: relative;
+  overflow: hidden;
+}
+
+/* base */
+.page-anim {
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
+}
+
+/* próxima página */
+.slide-left {
+  animation-name: slideLeft;
+}
+
+/* voltar página */
+.slide-right {
+  animation-name: slideRight;
+}
+
+/* animação direita → esquerda */
+@keyframes slideLeft {
+  from {
+    transform: translateX(100%);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* animação esquerda → direita */
+@keyframes slideRight {
+  from {
+    transform: translateX(-100%);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
