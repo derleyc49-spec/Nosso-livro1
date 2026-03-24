@@ -30,6 +30,14 @@ button {
   color: white;
 }
 
+.pesquisa-topo button {
+  transition: 0.2s;
+}
+
+.pesquisa-topo button:active {
+  transform: scale(0.95);
+}
+
 /* CAPA */
 #capa {
   height: 100vh;
@@ -63,7 +71,7 @@ button {
 
 /* CAIXA DO LIVRO */
 .box {
-  position: relative; /* 🔥 importante */
+  position: relative;
   width: 90%;
   max-width: 400px;
   height: 70vh;
@@ -73,10 +81,10 @@ button {
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-/* 🔥 TOPO (BOTÕES FORA DA PÁGINA) */
+/* TOPO */
 .topo {
   position: absolute;
-  top: -45px; /* sobe pra fora */
+  top: -45px;
   right: 15px;
   display: flex;
   gap: 10px;
@@ -134,77 +142,68 @@ textarea {
   from { transform: translateY(0); }
   to { transform: translateY(-100vh); opacity: 0; }
 }
+
+/* SCROLL */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* SUAVIDADE */
+button {
+  transition: all 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+textarea {
+  transition: all 0.2s ease;
+}
+
+/* ANIMAÇÃO PÁGINA */
+.box {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.slide-left {
+  transform: translateX(40px);
+  opacity: 0;
+}
+
+.slide-right {
+  transform: translateX(-40px);
+  opacity: 0;
+}
+
 /* ==========================
-💖 CAPA PREMIUM (SEM QUEBRAR APP)
+💖 ADIÇÃO (SEM MEXER ORIGINAL)
 ========================== */
 
-/* fundo só da capa */
+/* fundo da capa */
 #capa {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-
-  background: linear-gradient(135deg, #f5e6ea, #f2dce2);
+  background: radial-gradient(circle at top, #f8e9ed, #e9d2d8);
 }
-/* CARD COM SOMBRA PREMIUM */
-.card {
-  width: 320px;
-  padding: 30px;
-  border-radius: 30px;
 
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+/* melhorar card */
+#capa .card {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 
-  /* 🔥 SOMBRA PROFISSIONAL */
   box-shadow:
-    0 30px 60px rgba(0, 0, 0, 0.15),  /* sombra principal */
-    0 10px 20px rgba(255, 100, 120, 0.2), /* glow rosa */
-    inset 0 1px 1px rgba(255,255,255,0.5); /* brilho interno */
-
-  text-align: center;
-}
-/* foto */
-.foto {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin: 10px auto;
-  display: block;
-
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    0 25px 50px rgba(0, 0, 0, 0.12),
+    0 5px 15px rgba(255, 80, 100, 0.15),
+    inset 0 1px 2px rgba(255,255,255,0.6);
 }
 
-/* nome */
-.card h2 {
-  font-size: 22px;
-  margin: 10px 0;
-  color: #222;
-}
-
-/* texto */
-.card p {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 20px;
-}
-
-/* botão */
-.card button {
-  background: linear-gradient(135deg, #ff6b81, #ff3d5a);
-  border: none;
-  padding: 12px 35px;
-  border-radius: 25px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-
-  box-shadow: 0 10px 20px rgba(255, 80, 100, 0.4);
-}
-
-.card button:hover {
-  transform: scale(1.05);
+/* botão mais premium */
+#capa .card button {
+  box-shadow:
+    0 10px 25px rgba(255, 80, 100, 0.5),
+    0 0 20px rgba(255, 80, 100, 0.3);
 }
