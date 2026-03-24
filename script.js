@@ -14,100 +14,78 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// CONFIG
 const senhaCorreta = "Mary2026";
 
 let pagina = 1;
 const total = 300;
 
-let corFundoAtual = "#ffffff";
-let corTextoAtual = "#000000";
-
-// ELEMENTOS
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
-// 🔐 SENHA (SEM VÍDEO AGORA)
+// LOGIN
 function verificarSenha() {
   const senha = document.getElementById("senhaInput").value.trim();
 
   if (senha === senhaCorreta) {
     document.getElementById("senhaTela").style.display = "none";
     document.getElementById("capa").style.display = "flex";
+
+    tocarMusica();
+
   } else {
     alert("Senha errada 😅");
   }
 }
 
-// 📖 ABRIR LIVRO
+// ABRIR LIVRO
 function abrirLivro() {
   document.getElementById("capa").style.display = "none";
   document.getElementById("livro").style.display = "flex";
-
-  tocarMusica();
   carregar();
 }
 
 // SALVAR
-async function salvarPagina() {
+texto.addEventListener("input", async () => {
   await setDoc(doc(db, "livro", "pagina_" + pagina), {
-    texto: texto.value,
-    corFundo: corFundoAtual,
-    corTexto: corTextoAtual
+    texto: texto.value
   });
-}
-
-texto.addEventListener("input", salvarPagina);
+});
 
 // CARREGAR
 function carregar() {
   document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
   onSnapshot(doc(db, "livro", "pagina_" + pagina), (docSnap) => {
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-
-      texto.value = data.texto || "";
-      corFundoAtual = data.corFundo || "#ffffff";
-      corTextoAtual = data.corTexto || "#000000";
-
-      box.style.background = corFundoAtual;
-      texto.style.color = corTextoAtual;
-    } else {
-      texto.value = "";
-    }
+    texto.value = docSnap.exists() ? docSnap.data().texto || "" : "";
   });
 }
 
-// 📖 ANIMAÇÃO 900
-function animarPagina(direcao) {
-  const box = document.querySelector(".box");
+// ANIMAÇÃO
+function animarTroca(callback) {
+  box.classList.add("animar");
 
-  box.classList.remove("slide-left", "slide-right", "page-anim");
-
-  void box.offsetWidth;
-
-  if (direcao === "next") {
-    box.classList.add("page-anim", "slide-left");
-  } else {
-    box.classList.add("page-anim", "slide-right");
-  }
+  setTimeout(() => {
+    callback();
+    box.classList.remove("animar");
+  }, 200);
 }
 
 // NAVEGAÇÃO
 function proxima() {
   if (pagina < total) {
-    pagina++;
-    animarPagina("next"); // 🔥 900
-    carregar();
+    animarTroca(() => {
+      pagina++;
+      carregar();
+    });
   }
 }
 
 function voltar() {
   if (pagina > 1) {
-    pagina--;
-    animarPagina("prev"); // 🔥 900
-    carregar();
+    animarTroca(() => {
+      pagina--;
+      carregar();
+    });
   } else {
     document.getElementById("livro").style.display = "none";
     document.getElementById("capa").style.display = "flex";
@@ -123,12 +101,13 @@ function irPagina() {
     return;
   }
 
-  pagina = num;
-  animarPagina("next"); // 🔥 também anima
-  carregar();
+  animarTroca(() => {
+    pagina = num;
+    carregar();
+  });
 }
 
-// 🎧 MÚSICA
+// MÚSICA
 function tocarMusica() {
   const audio = document.getElementById("musica");
   if (audio) {
@@ -136,6 +115,37 @@ function tocarMusica() {
     audio.play();
   }
 }
+
+// SWIPE
+let startX = 0;
+let endX = 0;
+
+if (box) {
+  box.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  box.addEventListener("touchend", (e) => {
+    endX = e.changedTouches[0].clientX;
+    let diff = startX - endX;
+
+    if (diff > 50) proxima();
+    if (diff < -50) voltar();
+  });
+}
+
+// CORES
+document.getElementById("corFundo").oninput = (e) => {
+  box.style.background = e.target.value;
+};
+
+document.getElementById("corTexto").oninput = (e) => {
+  texto.style.color = e.target.value;
+};
+
+document.getElementById("fonte").onchange = (e) => {
+  texto.style.fontFamily = e.target.value;
+};
 
 // GLOBAL
 window.verificarSenha = verificarSenha;
