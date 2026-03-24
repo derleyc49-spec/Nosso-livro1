@@ -27,31 +27,13 @@ let corTextoAtual = "#000000";
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
-// 🔐 SENHA + VÍDEO
+// 🔐 SENHA (SEM VÍDEO AGORA)
 function verificarSenha() {
   const senha = document.getElementById("senhaInput").value.trim();
 
   if (senha === senhaCorreta) {
-
     document.getElementById("senhaTela").style.display = "none";
-
-    const telaVideo = document.getElementById("videoTela");
-    const video = document.getElementById("videoIntro");
-
-    telaVideo.style.display = "flex";
-
-    video.currentTime = 0;
-    video.volume = 0.6;
-
-    video.play().catch(() => {
-      console.log("Usuário precisa clicar no play");
-    });
-
-    video.onended = () => {
-      telaVideo.style.display = "none";
-      document.getElementById("capa").style.display = "flex";
-    };
-
+    document.getElementById("capa").style.display = "flex";
   } else {
     alert("Senha errada 😅");
   }
@@ -63,7 +45,6 @@ function abrirLivro() {
   document.getElementById("livro").style.display = "flex";
 
   tocarMusica();
-
   carregar();
 }
 
@@ -98,10 +79,26 @@ function carregar() {
   });
 }
 
+// 📖 ANIMAÇÃO 900
+function animarPagina(direcao) {
+  const box = document.querySelector(".box");
+
+  box.classList.remove("slide-left", "slide-right", "page-anim");
+
+  void box.offsetWidth;
+
+  if (direcao === "next") {
+    box.classList.add("page-anim", "slide-left");
+  } else {
+    box.classList.add("page-anim", "slide-right");
+  }
+}
+
 // NAVEGAÇÃO
 function proxima() {
   if (pagina < total) {
     pagina++;
+    animarPagina("next"); // 🔥 900
     carregar();
   }
 }
@@ -109,6 +106,7 @@ function proxima() {
 function voltar() {
   if (pagina > 1) {
     pagina--;
+    animarPagina("prev"); // 🔥 900
     carregar();
   } else {
     document.getElementById("livro").style.display = "none";
@@ -126,6 +124,7 @@ function irPagina() {
   }
 
   pagina = num;
+  animarPagina("next"); // 🔥 também anima
   carregar();
 }
 
