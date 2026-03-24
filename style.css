@@ -129,7 +129,7 @@ textarea {
 }
 
 /* ==========================
-💖 MELHORIAS (ADICIONADAS)
+💖 MELHORIAS (INTOCADAS)
 ========================== */
 
 /* fundo capa */
@@ -172,16 +172,6 @@ textarea {
     0 5px 20px rgba(255, 120, 140, 0.2);
 }
 
-/* linhas */
-#livro textarea {
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent,
-    transparent 24px,
-    rgba(255, 150, 170, 0.2) 25px
-  );
-}
-
 /* botões livro */
 #livro .botoes button {
   background: linear-gradient(135deg, #ff7a8a, #ff4d6d);
@@ -196,4 +186,12 @@ textarea {
 
   box-shadow:
     0 5px 10px rgba(0,0,0,0.1);
+}
+
+/* ==========================
+🚫 REMOÇÃO DAS LINHAS (SÓ ISSO)
+========================== */
+
+#livro textarea {
+  background: transparent !important;
 }
