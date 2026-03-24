@@ -27,7 +27,7 @@ let corTextoAtual = "#000000";
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
-// 🔐 SENHA + VÍDEO
+// 🔐 SENHA + VÍDEO COM SOM
 function verificarSenha() {
   const senha = document.getElementById("senhaInput").value.trim();
 
@@ -41,7 +41,10 @@ function verificarSenha() {
     telaVideo.style.display = "flex";
 
     video.currentTime = 0;
-    video.muted = true;
+
+    video.muted = false;
+    video.volume = 0.6; // 🔥 volume 60%
+
     video.play();
 
     video.onended = () => {
@@ -54,12 +57,12 @@ function verificarSenha() {
   }
 }
 
-// 📖 ABRIR LIVRO (AGORA COM MÚSICA)
+// 📖 ABRIR LIVRO (COM MÚSICA)
 function abrirLivro() {
   document.getElementById("capa").style.display = "none";
   document.getElementById("livro").style.display = "flex";
 
-  tocarMusica(); // 🔥 só toca aqui agora
+  tocarMusica(); // 🔥 música só aqui
 
   carregar();
 }
