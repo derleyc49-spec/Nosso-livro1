@@ -134,3 +134,103 @@ textarea {
   from { transform: translateY(0); }
   to { transform: translateY(-100vh); opacity: 0; }
 }
+/* ==========================
+💖 CAPA ESTILO PREMIUM
+========================== */
+
+body {
+  background: linear-gradient(135deg, #f8e7ec, #f3d6df);
+  font-family: Arial, sans-serif;
+}
+
+/* container da capa */
+#capa {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* card principal */
+.card {
+  width: 300px;
+  padding: 30px;
+  border-radius: 25px;
+  background: linear-gradient(145deg, #f9e4ea, #f3d0d9);
+  box-shadow: 
+    10px 10px 25px rgba(0,0,0,0.1),
+    -10px -10px 25px rgba(255,255,255,0.6);
+  text-align: center;
+  position: relative;
+}
+
+/* borda tipo vidro */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 25px;
+  padding: 2px;
+  background: linear-gradient(145deg, #ffffff60, #ffffff20);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
+
+/* imagem */
+.foto {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* nome */
+.card h2 {
+  margin: 10px 0;
+  font-size: 22px;
+  color: #333;
+}
+
+/* texto */
+.card p {
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* botão */
+.card button {
+  background: linear-gradient(145deg, #ff7a8a, #ff5c72);
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 5px 15px rgba(255, 100, 120, 0.4);
+}
+
+.card button:hover {
+  transform: scale(1.05);
+}
+
+/* coraçõezinhos no fundo */
+body::after {
+  content: "💖 💗 💕 💞 💓";
+  position: fixed;
+  font-size: 20px;
+  opacity: 0.15;
+  animation: float 10s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0% { transform: translateY(100vh); }
+  100% { transform: translateY(-100vh); }
+}
