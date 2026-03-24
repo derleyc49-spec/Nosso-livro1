@@ -14,9 +14,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ==========================
 // CONFIG
-// ==========================
 const senhaCorreta = "Mary2026";
 
 let pagina = 1;
@@ -29,9 +27,7 @@ let corTextoAtual = "#000000";
 const texto = document.getElementById("texto");
 const box = document.querySelector(".box");
 
-// ==========================
-// 🔐 SENHA COM VÍDEO
-// ==========================
+// 🔐 SENHA + VÍDEO
 function verificarSenha() {
   const senha = document.getElementById("senhaInput").value.trim();
 
@@ -46,7 +42,6 @@ function verificarSenha() {
 
     video.currentTime = 0;
     video.muted = true;
-
     video.play();
 
     video.onended = () => {
@@ -54,25 +49,22 @@ function verificarSenha() {
       document.getElementById("capa").style.display = "flex";
     };
 
-    tocarMusica();
-
   } else {
     alert("Senha errada 😅");
   }
 }
 
-// ==========================
-// 📖 ABRIR LIVRO
-// ==========================
+// 📖 ABRIR LIVRO (AGORA COM MÚSICA)
 function abrirLivro() {
   document.getElementById("capa").style.display = "none";
   document.getElementById("livro").style.display = "flex";
+
+  tocarMusica(); // 🔥 só toca aqui agora
+
   carregar();
 }
 
-// ==========================
-// 💾 SALVAR
-// ==========================
+// SALVAR
 async function salvarPagina() {
   await setDoc(doc(db, "livro", "pagina_" + pagina), {
     texto: texto.value,
@@ -83,9 +75,7 @@ async function salvarPagina() {
 
 texto.addEventListener("input", salvarPagina);
 
-// ==========================
-// 📥 CARREGAR
-// ==========================
+// CARREGAR
 function carregar() {
   document.getElementById("paginaNum").innerText = pagina + "/" + total;
 
@@ -94,7 +84,6 @@ function carregar() {
       const data = docSnap.data();
 
       texto.value = data.texto || "";
-
       corFundoAtual = data.corFundo || "#ffffff";
       corTextoAtual = data.corTexto || "#000000";
 
@@ -102,15 +91,11 @@ function carregar() {
       texto.style.color = corTextoAtual;
     } else {
       texto.value = "";
-      box.style.background = "#ffffff";
-      texto.style.color = "#000000";
     }
   });
 }
 
-// ==========================
-// ➡️ NAVEGAÇÃO
-// ==========================
+// NAVEGAÇÃO
 function proxima() {
   if (pagina < total) {
     pagina++;
@@ -128,9 +113,7 @@ function voltar() {
   }
 }
 
-// ==========================
-// 🔎 IR PÁGINA
-// ==========================
+// PESQUISA
 function irPagina() {
   const num = parseInt(document.getElementById("buscarPagina").value);
 
@@ -143,9 +126,7 @@ function irPagina() {
   carregar();
 }
 
-// ==========================
 // 🎧 MÚSICA
-// ==========================
 function tocarMusica() {
   const audio = document.getElementById("musica");
   if (audio) {
@@ -154,52 +135,7 @@ function tocarMusica() {
   }
 }
 
-// ==========================
-// 📱 SWIPE
-// ==========================
-let startX = 0;
-let endX = 0;
-
-if (box) {
-  box.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-  });
-
-  box.addEventListener("touchend", (e) => {
-    endX = e.changedTouches[0].clientX;
-
-    let diff = startX - endX;
-
-    if (diff > 50) proxima();
-    if (diff < -50) voltar();
-  });
-}
-
-// ==========================
-// 🎨 CORES
-// ==========================
-document.getElementById("corFundo").oninput = (e) => {
-  corFundoAtual = e.target.value;
-  box.style.background = corFundoAtual;
-  salvarPagina();
-};
-
-document.getElementById("corTexto").oninput = (e) => {
-  corTextoAtual = e.target.value;
-  texto.style.color = corTextoAtual;
-  salvarPagina();
-};
-
-// ==========================
-// 🔤 FONTE
-// ==========================
-document.getElementById("fonte").onchange = (e) => {
-  texto.style.fontFamily = e.target.value;
-};
-
-// ==========================
-// 🌍 GLOBAL
-// ==========================
+// GLOBAL
 window.verificarSenha = verificarSenha;
 window.abrirLivro = abrirLivro;
 window.proxima = proxima;
