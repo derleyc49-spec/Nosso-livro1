@@ -147,24 +147,24 @@ textarea {
 
   background: linear-gradient(135deg, #f5e6ea, #f2dce2);
 }
-
-/* card */
+/* CARD COM SOMBRA PREMIUM */
 .card {
   width: 320px;
-  padding: 35px;
-  border-radius: 40px;
+  padding: 30px;
+  border-radius: 30px;
 
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
 
+  /* 🔥 SOMBRA PROFISSIONAL */
   box-shadow:
-    0 20px 40px rgba(0,0,0,0.1),
-    inset 0 1px 1px rgba(255,255,255,0.4);
+    0 30px 60px rgba(0, 0, 0, 0.15),  /* sombra principal */
+    0 10px 20px rgba(255, 100, 120, 0.2), /* glow rosa */
+    inset 0 1px 1px rgba(255,255,255,0.5); /* brilho interno */
 
   text-align: center;
 }
-
 /* foto */
 .foto {
   width: 120px;
