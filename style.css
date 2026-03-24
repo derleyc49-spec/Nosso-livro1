@@ -133,130 +133,27 @@ textarea {
 @keyframes subir {
   from { transform: translateY(0); }
   to { transform: translateY(-100vh); opacity: 0; }
-}/* ==========================
-💖 CAPA ESTILO PREMIUM
+}
+/* ==========================
+💖 CAPA PREMIUM (SEM QUEBRAR APP)
 ========================== */
 
-body {
-  background: linear-gradient(135deg, #f8e7ec, #f3d6df);
-  font-family: Arial, sans-serif;
-}
-
-/* container da capa */
+/* fundo só da capa */
 #capa {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-}
 
-/* card principal */
-.card {
-  width: 300px;
-  padding: 30px;
-  border-radius: 25px;
-  background: linear-gradient(145deg, #f9e4ea, #f3d0d9);
-  box-shadow: 
-    10px 10px 25px rgba(0,0,0,0.1),
-    -10px -10px 25px rgba(255,255,255,0.6);
-  text-align: center;
-  position: relative;
-}
-
-/* borda tipo vidro */
-.card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 25px;
-  padding: 2px;
-  background: linear-gradient(145deg, #ffffff60, #ffffff20);
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-}
-
-/* imagem */
-.foto {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-}
-
-/* nome */
-.card h2 {
-  margin: 10px 0;
-  font-size: 22px;
-  color: #333;
-}
-
-/* texto */
-.card p {
-  color: #555;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-/* botão */
-.card button {
-  background: linear-gradient(145deg, #ff7a8a, #ff5c72);
-  border: none;
-  color: white;
-  padding: 12px 30px;
-  border-radius: 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0 5px 15px rgba(255, 100, 120, 0.4);
-}
-
-.card button:hover {
-  transform: scale(1.05);
-}
-
-/* coraçõezinhos no fundo */
-body::after {
-  content: "💖 💗 💕 💞 💓";
-  position: fixed;
-  font-size: 20px;
-  opacity: 0.15;
-  animation: float 10s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes float {
-  0% { transform: translateY(100vh); }
-  100% { transform: translateY(-100vh); }
-}
-/* FUNDO */
-body {
-  margin: 0;
-  height: 100vh;
   background: linear-gradient(135deg, #f5e6ea, #f2dce2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
 }
 
-/* CAPA */
-#capa {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-/* CARD PREMIUM */
+/* card */
 .card {
   width: 320px;
   padding: 30px;
   border-radius: 30px;
+
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
@@ -268,7 +165,7 @@ body {
   text-align: center;
 }
 
-/* FOTO */
+/* foto */
 .foto {
   width: 120px;
   height: 120px;
@@ -276,24 +173,25 @@ body {
   object-fit: cover;
   margin: 10px auto;
   display: block;
+
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-/* NOME */
+/* nome */
 .card h2 {
   font-size: 22px;
   margin: 10px 0;
   color: #222;
 }
 
-/* TEXTO */
+/* texto */
 .card p {
   font-size: 14px;
   color: #555;
   margin-bottom: 20px;
 }
 
-/* BOTÃO PREMIUM */
+/* botão */
 .card button {
   background: linear-gradient(135deg, #ff6b81, #ff3d5a);
   border: none;
